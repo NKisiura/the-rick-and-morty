@@ -1,13 +1,9 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -30,13 +26,14 @@
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/prefer-on-push-component-change-detection": ["error"],
+        "@angular-eslint/sort-lifecycle-methods": ["error"],
+        "@angular-eslint/use-lifecycle-interface": ["error"],
         "@typescript-eslint/naming-convention": [
           "error",
           {
             "selector": "interface",
-            "format": [
-              "PascalCase"
-            ],
+            "format": ["PascalCase"],
             "custom": {
               "regex": "^(?!.*Interface$)",
               "match": true
@@ -46,9 +43,7 @@
           },
           {
             "selector": "enum",
-            "format": [
-              "PascalCase"
-            ],
+            "format": ["PascalCase"],
             "custom": {
               "regex": "^(?!.*Enum$)",
               "match": true
@@ -60,9 +55,7 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "extends": [
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility"
