@@ -25,6 +25,7 @@
     "paths": {
       "@home/*": ["./src/app/home/*"],
       "@characters/*": ["./src/app/characters/*"],
+      "@locations/*": ["./src/app/locations/*"],
     }
   },
   "angularCompilerOptions": {
