@@ -23,8 +23,8 @@
       "dom"
     ],
     "paths": {
-      "@home/*": ["src/app/home/*"],
-      "@characters/*": ["src/app/characters/*"],
+      "@home/*": ["./src/app/home/*"],
+      "@characters/*": ["./src/app/characters/*"],
     }
   },
   "angularCompilerOptions": {
