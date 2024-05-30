@@ -21,7 +21,11 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@home/*": ["src/app/home/*"],
+      "@characters/*": ["src/app/characters/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
