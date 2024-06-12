@@ -1,9 +1,9 @@
 export interface PaginatedResponseDTO<T> {
-  readonly info: Info;
+  readonly info: PaginationInfo;
   readonly results: T[];
 }
 
-interface Info {
+interface PaginationInfo {
   readonly count: number;
   readonly pages: number;
   readonly next: string | null;
