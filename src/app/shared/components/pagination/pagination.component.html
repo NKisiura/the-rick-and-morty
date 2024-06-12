@@ -1,0 +1,146 @@
+<div class="flex gap-0.5">
+  <ng-container
+    [ngTemplateOutlet]="paginationButton"
+    [ngTemplateOutletContext]="{
+      content: '<<',
+      page: 1,
+      isDisabled: page() === 1 || isDisabled()
+    }"
+  ></ng-container>
+  <ng-container
+    [ngTemplateOutlet]="paginationButton"
+    [ngTemplateOutletContext]="{
+      content: '<',
+      page: page() - 1,
+      isDisabled: page() === 1 || isDisabled()
+    }"
+  ></ng-container>
+
+  @if (page() === pagesCount() && page() - 4 > 0) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() - 4,
+        page: page() - 4,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+  @if (pagesCount() - page() < 2 && page() - 3 > 0) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() - 3,
+        page: page() - 3,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+
+  @if (page() - 2 > 0) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() - 2,
+        page: page() - 2,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+  @if (page() - 1 > 0) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() - 1,
+        page: page() - 1,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+
+  <ng-container
+    [ngTemplateOutlet]="paginationButton"
+    [ngTemplateOutletContext]="{
+      content: page(),
+      isDisabled: true,
+      isCurrentPage: true
+    }"
+  ></ng-container>
+
+  @if (page() + 1 <= pagesCount() && page() + 1 <= pagesCount()) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() + 1,
+        page: page() + 1,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+  @if (page() + 2 <= pagesCount() && page() + 2 <= pagesCount()) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() + 2,
+        page: page() + 2,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+
+  @if (page() < 3 && page() + 3 <= pagesCount()) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() + 3,
+        page: page() + 3,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+  @if (page() === 1 && page() + 4 <= pagesCount()) {
+    <ng-container
+      [ngTemplateOutlet]="paginationButton"
+      [ngTemplateOutletContext]="{
+        content: page() + 4,
+        page: page() + 4,
+        isDisabled: isDisabled()
+      }"
+    ></ng-container>
+  }
+
+  <ng-container
+    [ngTemplateOutlet]="paginationButton"
+    [ngTemplateOutletContext]="{
+      content: '>',
+      page: page() + 1,
+      isDisabled: page() === pagesCount() || isDisabled()
+    }"
+  ></ng-container>
+  <ng-container
+    [ngTemplateOutlet]="paginationButton"
+    [ngTemplateOutletContext]="{
+      content: '>>',
+      page: pagesCount(),
+      isDisabled: page() === pagesCount() || isDisabled()
+    }"
+  ></ng-container>
+</div>
+
+<ng-template
+  #paginationButton
+  let-content="content"
+  let-page="page"
+  let-isDisabled="isDisabled"
+  let-isCurrentPage="isCurrentPage"
+>
+  <button
+    type="button"
+    class="flex h-8 w-8 items-center justify-center disabled:opacity-50"
+    [ngClass]="{ 'bg-gray-200': isCurrentPage }"
+    [disabled]="isDisabled"
+    (click)="goToPage(page)"
+  >
+    {{ content }}
+  </button>
+</ng-template>
