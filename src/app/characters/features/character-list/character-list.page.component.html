@@ -1,1 +1,26 @@
-<p>character-list.page works!</p>
+<characters-filter
+  [filter]="charactersFilter()"
+  [isDisabled]="charactersLoading()"
+  (filterChange)="handleFilterChange($event)"
+></characters-filter>
+
+<pagination
+  [page]="currentPage()"
+  [pagesCount]="pagesCount()"
+  [isDisabled]="charactersLoading()"
+  (pageChange)="handlePageChange($event)"
+></pagination>
+
+@if (charactersLoading()) {
+  <div class="mb-3">Loading...</div>
+}
+
+@if (error(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (characters(); as characters) {
+  @for (character of characters; track character.id) {
+    <character-card [character]="character"></character-card>
+  }
+}

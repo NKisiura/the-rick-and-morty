@@ -1,5 +1,5 @@
-import { CharacterStatus } from "./character-status";
-import { CharacterGender } from "./character-gender";
+import { CharacterStatus } from "@characters/types/character-status";
+import { CharacterGender } from "@characters/types/character-gender";
 
 export interface Character {
   readonly id: number;
