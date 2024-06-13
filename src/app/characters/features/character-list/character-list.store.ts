@@ -10,14 +10,14 @@ import { tapResponse } from "@ngrx/operators";
 export interface CharacterListState {
   readonly filter: CharactersFilter;
   readonly isLoading: boolean;
-  readonly data: PaginatedResponseDTO<Character> | null;
+  readonly paginatedCharacterList: PaginatedResponseDTO<Character> | null;
   readonly error: BackendErrorResponse | null;
 }
 
 const initialState: CharacterListState = {
   filter: {},
   isLoading: false,
-  data: null,
+  paginatedCharacterList: null,
   error: null,
 };
 
@@ -31,22 +31,26 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- SELECTORS -------------------------
 
-  private readonly paginatedResponse = this.selectSignal((state) => state.data);
+  private readonly paginatedCharacterList = this.selectSignal(
+    (state) => state.paginatedCharacterList,
+  );
 
   public readonly characters = this.selectSignal(
-    this.paginatedResponse,
-    (paginatedResponse) => paginatedResponse?.results || null,
+    this.paginatedCharacterList,
+    (paginatedCharacterList) => paginatedCharacterList?.results || null,
   );
   public readonly charactersLoading = this.selectSignal(
     (state) => state.isLoading,
   );
   public readonly error = this.selectSignal((state) => state.error);
 
-  public charactersFilter = this.selectSignal((state) => state.filter);
-  public currentPage = this.selectSignal((state) => state.filter.page || 1);
-  public pagesCount = this.selectSignal(
-    this.paginatedResponse,
-    (paginatedResponse) => paginatedResponse?.info.pages || 1,
+  public readonly charactersFilter = this.selectSignal((state) => state.filter);
+  public readonly currentPage = this.selectSignal(
+    (state) => state.filter.page || 1,
+  );
+  public readonly pagesCount = this.selectSignal(
+    this.paginatedCharacterList,
+    (paginatedCharacterList) => paginatedCharacterList?.info.pages || 1,
   );
 
   // ------------------------- EFFECTS -------------------------
@@ -58,8 +62,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
         switchMap((charactersFilter) =>
           this.charactersApiService.getAllCharacters(charactersFilter).pipe(
             tapResponse(
-              (paginatedResponse) => {
-                this.getCharacterListSuccess(paginatedResponse);
+              (paginatedCharacterList) => {
+                this.getCharacterListSuccess(paginatedCharacterList);
               },
               (error: HttpErrorResponse) => {
                 this.getCharacterListFailure(error.error);
@@ -80,7 +84,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     ): CharacterListState => ({
       ...state,
       isLoading: false,
-      data: paginatedCharacterList,
+      paginatedCharacterList: paginatedCharacterList,
       error: null,
     }),
   );
@@ -89,7 +93,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     (state, error: BackendErrorResponse): CharacterListState => ({
       ...state,
       isLoading: false,
-      data: null,
+      paginatedCharacterList: null,
       error: error,
     }),
   );
