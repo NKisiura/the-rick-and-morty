@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 export enum AppRoutes {
   HOME = "home",
   CHARACTERS = "characters",
+  EPISODES = "episodes",
   LOCATIONS = "locations",
 }
 
@@ -15,6 +16,11 @@ export const routes: Routes = [
     path: AppRoutes.CHARACTERS,
     loadChildren: () =>
       import("./characters/characters-routes").then((m) => m.charactersRoutes),
+  },
+  {
+    path: AppRoutes.EPISODES,
+    loadChildren: () =>
+      import("./episodes/episodes-routes").then((m) => m.episodesRoutes),
   },
   {
     path: AppRoutes.LOCATIONS,

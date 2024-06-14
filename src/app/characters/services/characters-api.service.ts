@@ -5,12 +5,10 @@ import { Character, CharactersFilter } from "@characters/types";
 import { PaginatedResponseDTO } from "@shared/types/http";
 import { createHttpParamsByFilter } from "@shared/utils/http";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable({ providedIn: "root" })
 export class CharactersApiService {
-  private URL = CHARACTERS_URL;
   private httpClient = inject(HttpClient);
+  private URL = CHARACTERS_URL;
 
   public getCharacterById(characterId: number) {
     return this.httpClient.get<Character>(`${this.URL}/${characterId}`);
