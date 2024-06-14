@@ -37,17 +37,17 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly getCharacter = this.effect<number>((characterId$) => {
+  public readonly getCharacterById = this.effect<number>((characterId$) => {
     return characterId$.pipe(
       tap(() => this.patchState({ isLoading: true })),
       switchMap((characterId) =>
-        this.charactersApiService.getSingleCharacter(characterId).pipe(
+        this.charactersApiService.getCharacterById(characterId).pipe(
           tapResponse(
             (character) => {
               this.getCharacterSuccess(character);
             },
             (error: HttpErrorResponse) => {
-              this.getCharacterListFailure(error.error);
+              this.getCharacterFailure(error.error);
             },
           ),
         ),
@@ -66,7 +66,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  public readonly getCharacterListFailure = this.updater(
+  public readonly getCharacterFailure = this.updater(
     (state, error: BackendErrorResponse): CharacterDetailsState => ({
       ...state,
       isLoading: false,

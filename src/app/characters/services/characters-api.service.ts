@@ -12,11 +12,17 @@ export class CharactersApiService {
   private URL = CHARACTERS_URL;
   private httpClient = inject(HttpClient);
 
-  public getSingleCharacter(characterId: number) {
+  public getCharacterById(characterId: number) {
     return this.httpClient.get<Character>(`${this.URL}/${characterId}`);
   }
 
-  public getAllCharacters(charactersFilter: CharactersFilter) {
+  public getCharactersByIdList(characterIdList: number[]) {
+    return this.httpClient.get<Character[]>(
+      `${this.URL}/${characterIdList.join(",")}`,
+    );
+  }
+
+  public getCharactersByFilter(charactersFilter: CharactersFilter) {
     return this.httpClient.get<PaginatedResponseDTO<Character>>(this.URL, {
       params: createHttpParamsByFilter(charactersFilter),
     });

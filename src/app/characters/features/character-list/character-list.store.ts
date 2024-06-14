@@ -55,21 +55,23 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly getCharacterList = this.effect<CharactersFilter>(
+  public readonly getCharactersByFilter = this.effect<CharactersFilter>(
     (charactersFilter$) => {
       return charactersFilter$.pipe(
         tap(() => this.patchState({ isLoading: true })),
         switchMap((charactersFilter) =>
-          this.charactersApiService.getAllCharacters(charactersFilter).pipe(
-            tapResponse(
-              (paginatedCharacterList) => {
-                this.getCharacterListSuccess(paginatedCharacterList);
-              },
-              (error: HttpErrorResponse) => {
-                this.getCharacterListFailure(error.error);
-              },
+          this.charactersApiService
+            .getCharactersByFilter(charactersFilter)
+            .pipe(
+              tapResponse(
+                (paginatedCharacterList) => {
+                  this.getCharactersSuccess(paginatedCharacterList);
+                },
+                (error: HttpErrorResponse) => {
+                  this.getCharactersFailure(error.error);
+                },
+              ),
             ),
-          ),
         ),
       );
     },
@@ -77,7 +79,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly getCharacterListSuccess = this.updater(
+  private readonly getCharactersSuccess = this.updater(
     (
       state,
       paginatedCharacterList: PaginatedResponseDTO<Character>,
@@ -89,7 +91,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     }),
   );
 
-  private readonly getCharacterListFailure = this.updater(
+  private readonly getCharactersFailure = this.updater(
     (state, error: BackendErrorResponse): CharacterListState => ({
       ...state,
       isLoading: false,

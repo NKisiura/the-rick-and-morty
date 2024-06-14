@@ -58,7 +58,7 @@ export class CharacterListPageComponent implements OnInit {
 
   private updateCharacters(filter: CharactersFilter): void {
     this.characterListStore.setFilter(filter);
-    this.characterListStore.getCharacterList(this.charactersFilter());
+    this.characterListStore.getCharactersByFilter(this.charactersFilter());
     this.router.navigate([], { queryParams: this.charactersFilter() });
   }
 }

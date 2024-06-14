@@ -28,6 +28,6 @@ export class CharacterDetailsPageComponent implements OnInit {
   public error = this.characterDetailsStore.error;
 
   ngOnInit(): void {
-    this.characterDetailsStore.getCharacter(this.characterId());
+    this.characterDetailsStore.getCharacterById(this.characterId());
   }
 }
