@@ -25,6 +25,7 @@
     "paths": {
       "@home/*": ["./src/app/home/*"],
       "@characters/*": ["./src/app/characters/*"],
+      "@episodes/*": ["./src/app/episodes/*"],
       "@locations/*": ["./src/app/locations/*"],
       "@core/*": ["./src/app/core/*"],
       "@shared/*": ["./src/app/shared/*"],
