@@ -1,5 +1,6 @@
 import { CharacterStatus } from "@characters/types/character-status";
 import { CharacterGender } from "@characters/types/character-gender";
+import { LocationLite, LocationLiteResponse } from "@locations/types";
 
 export interface Character {
   readonly id: number;
@@ -8,15 +9,25 @@ export interface Character {
   readonly species: string;
   readonly type: string;
   readonly gender: CharacterGender;
-  readonly origin: LocationDTO;
-  readonly location: LocationDTO;
+  readonly origin: LocationLite;
+  readonly location: LocationLite;
+  readonly image: string;
+  readonly episodeIds: number[];
+  readonly url: string;
+  readonly created: Date;
+}
+
+export interface CharacterResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly status: CharacterStatus;
+  readonly species: string;
+  readonly type: string;
+  readonly gender: CharacterGender;
+  readonly origin: LocationLiteResponse;
+  readonly location: LocationLiteResponse;
   readonly image: string;
   readonly episode: string[];
   readonly url: string;
   readonly created: string;
-}
-
-interface LocationDTO {
-  readonly name: string;
-  readonly url: string;
 }
