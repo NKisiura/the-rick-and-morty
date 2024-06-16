@@ -2,10 +2,27 @@
   <div>Loading...</div>
 }
 
-@if (error(); as error) {
+@if (characterError(); as error) {
   <div>{{ error.error }}</div>
 }
 
 @if (character(); as character) {
   <img [src]="character.image" alt="image" />
+}
+
+@if (characterEpisodesLoading()) {
+  <div>Episodes Loading...</div>
+}
+
+@if (characterEpisodesError(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (characterEpisodes(); as episodes) {
+  @for (episode of episodes; track episode.id; let last = $last) {
+    <span>{{ episode.name }}</span>
+    @if (!last) {
+      <span>, </span>
+    }
+  }
 }

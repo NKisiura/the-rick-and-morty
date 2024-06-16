@@ -25,9 +25,13 @@ export class CharacterDetailsPageComponent implements OnInit {
 
   public character = this.characterDetailsStore.character;
   public characterLoading = this.characterDetailsStore.characterLoading;
-  public error = this.characterDetailsStore.error;
+  public characterError = this.characterDetailsStore.characterError;
+
+  public characterEpisodes = this.characterDetailsStore.episodes;
+  public characterEpisodesLoading = this.characterDetailsStore.episodesLoading;
+  public characterEpisodesError = this.characterDetailsStore.episodesError;
 
   ngOnInit(): void {
-    this.characterDetailsStore.getCharacterById(this.characterId());
+    this.characterDetailsStore.getCharacterWithEpisodesById(this.characterId());
   }
 }
