@@ -114,6 +114,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
   private readonly getCharacterFailure = this.updater(
     (state, error: BackendErrorResponse): CharacterDetailsState => ({
       ...state,
+      episodesLoading: false,
       characterLoading: false,
       character: null,
       characterError: error,
