@@ -24,8 +24,16 @@ export class CharactersApiService {
 
   public getCharactersByIdList(characterIdList: number[]) {
     return this.httpClient
-      .get<CharacterResponse[]>(`${this.URL}/${characterIdList.join(",")}`)
-      .pipe(map(CharacterAdapter.adaptArray));
+      .get<
+        CharacterResponse | CharacterResponse[]
+      >(`${this.URL}/${characterIdList.join(",")}`)
+      .pipe(
+        map((response) => {
+          return Array.isArray(response)
+            ? CharacterAdapter.adaptArray(response)
+            : [CharacterAdapter.adapt(response)];
+        }),
+      );
   }
 
   public getCharactersByFilter(charactersFilter: CharactersFilter) {

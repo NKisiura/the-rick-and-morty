@@ -20,8 +20,16 @@ export class EpisodesApiService {
 
   public getEpisodesByIdList(episodeIdList: number[]) {
     return this.httpClient
-      .get<EpisodeResponse[]>(`${this.URL}/${episodeIdList.join(",")}`)
-      .pipe(map(EpisodeAdapter.adaptArray));
+      .get<
+        EpisodeResponse | EpisodeResponse[]
+      >(`${this.URL}/${episodeIdList.join(",")}`)
+      .pipe(
+        map((response) => {
+          return Array.isArray(response)
+            ? EpisodeAdapter.adaptArray(response)
+            : [EpisodeAdapter.adapt(response)];
+        }),
+      );
   }
 
   public getEpisodesByFilter(episodesFilter: EpisodesFilter) {
