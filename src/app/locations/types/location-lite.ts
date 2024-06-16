@@ -1,5 +1,5 @@
 export interface LocationLite {
-  readonly id: number;
+  readonly id: number | null;
   readonly name: string;
 }
 
