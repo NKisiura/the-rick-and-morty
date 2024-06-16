@@ -1,20 +1,20 @@
-import { Episode, EpisodeResponse } from "@episodes/types";
+import { Episode, EpisodeDTO } from "@episodes/types";
 import { extractEntityIdFromUrl } from "@shared/utils/url";
 
 export class EpisodeAdapter {
-  public static adapt(response: EpisodeResponse): Episode {
+  public static fromDTO(dto: EpisodeDTO): Episode {
     return {
-      id: response.id,
-      name: response.name,
-      airDate: new Date(response.air_date),
-      episode: response.episode,
-      characterIds: response.characters.map(extractEntityIdFromUrl),
-      url: response.url,
-      created: new Date(response.created),
+      id: dto.id,
+      name: dto.name,
+      airDate: new Date(dto.air_date),
+      episode: dto.episode,
+      characterIds: dto.characters.map(extractEntityIdFromUrl),
+      url: dto.url,
+      created: new Date(dto.created),
     };
   }
 
-  public static adaptArray(response: EpisodeResponse[]): Episode[] {
-    return response.map(EpisodeAdapter.adapt);
+  public static fromDTOList(dtoList: EpisodeDTO[]): Episode[] {
+    return dtoList.map(EpisodeAdapter.fromDTO);
   }
 }

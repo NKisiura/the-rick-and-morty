@@ -1,11 +1,11 @@
-import { LocationLite, LocationLiteResponse } from "@locations/types";
+import { LocationLite, LocationLiteDTO } from "@locations/types";
 import { extractEntityIdFromUrl } from "@shared/utils/url";
 
 export class LocationLiteAdapter {
-  public static adapt(response: LocationLiteResponse): LocationLite {
+  public static fromDTO(dto: LocationLiteDTO): LocationLite {
     return {
-      id: response.url ? extractEntityIdFromUrl(response.url) : null,
-      name: response.name,
+      id: dto.url ? extractEntityIdFromUrl(dto.url) : null,
+      name: dto.name,
     };
   }
 }

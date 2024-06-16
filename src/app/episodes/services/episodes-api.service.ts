@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { EPISODES_URL } from "@shared/constants";
-import { Episode, EpisodeResponse, EpisodesFilter } from "@episodes/types";
+import { Episode, EpisodeDTO, EpisodesFilter } from "@episodes/types";
 import { PaginatedResponseDTO } from "@shared/types/http";
 import { createHttpParamsByFilter } from "@shared/utils/http";
 import { map } from "rxjs";
@@ -14,34 +14,32 @@ export class EpisodesApiService {
 
   public getEpisodeById(episodeId: number) {
     return this.httpClient
-      .get<EpisodeResponse>(`${this.URL}/${episodeId}`)
-      .pipe(map(EpisodeAdapter.adapt));
+      .get<EpisodeDTO>(`${this.URL}/${episodeId}`)
+      .pipe(map(EpisodeAdapter.fromDTO));
   }
 
   public getEpisodesByIdList(episodeIdList: number[]) {
     return this.httpClient
-      .get<
-        EpisodeResponse | EpisodeResponse[]
-      >(`${this.URL}/${episodeIdList.join(",")}`)
+      .get<EpisodeDTO | EpisodeDTO[]>(`${this.URL}/${episodeIdList.join(",")}`)
       .pipe(
         map((response) => {
           return Array.isArray(response)
-            ? EpisodeAdapter.adaptArray(response)
-            : [EpisodeAdapter.adapt(response)];
+            ? EpisodeAdapter.fromDTOList(response)
+            : [EpisodeAdapter.fromDTO(response)];
         }),
       );
   }
 
   public getEpisodesByFilter(episodesFilter: EpisodesFilter) {
     return this.httpClient
-      .get<PaginatedResponseDTO<EpisodeResponse>>(this.URL, {
+      .get<PaginatedResponseDTO<EpisodeDTO>>(this.URL, {
         params: createHttpParamsByFilter(episodesFilter),
       })
       .pipe(
         map((response) => {
           return {
             ...response,
-            results: response.results.map(EpisodeAdapter.adapt),
+            results: response.results.map(EpisodeAdapter.fromDTO),
           } as PaginatedResponseDTO<Episode>;
         }),
       );

@@ -8,7 +8,7 @@ export interface Episode {
   readonly created: Date;
 }
 
-export interface EpisodeResponse {
+export interface EpisodeDTO {
   readonly id: number;
   readonly name: string;
   readonly air_date: string;

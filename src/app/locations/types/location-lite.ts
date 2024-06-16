@@ -3,7 +3,7 @@ export interface LocationLite {
   readonly name: string;
 }
 
-export interface LocationLiteResponse {
+export interface LocationLiteDTO {
   readonly name: string;
   readonly url: string;
 }

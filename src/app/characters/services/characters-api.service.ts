@@ -1,11 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { CHARACTERS_URL } from "@shared/constants";
-import {
-  Character,
-  CharacterResponse,
-  CharactersFilter,
-} from "@characters/types";
+import { Character, CharacterDTO, CharactersFilter } from "@characters/types";
 import { PaginatedResponseDTO } from "@shared/types/http";
 import { createHttpParamsByFilter } from "@shared/utils/http";
 import { map } from "rxjs";
@@ -18,34 +14,34 @@ export class CharactersApiService {
 
   public getCharacterById(characterId: number) {
     return this.httpClient
-      .get<CharacterResponse>(`${this.URL}/${characterId}`)
-      .pipe(map(CharacterAdapter.adapt));
+      .get<CharacterDTO>(`${this.URL}/${characterId}`)
+      .pipe(map(CharacterAdapter.fromDTO));
   }
 
   public getCharactersByIdList(characterIdList: number[]) {
     return this.httpClient
       .get<
-        CharacterResponse | CharacterResponse[]
+        CharacterDTO | CharacterDTO[]
       >(`${this.URL}/${characterIdList.join(",")}`)
       .pipe(
         map((response) => {
           return Array.isArray(response)
-            ? CharacterAdapter.adaptArray(response)
-            : [CharacterAdapter.adapt(response)];
+            ? CharacterAdapter.fromDTOList(response)
+            : [CharacterAdapter.fromDTO(response)];
         }),
       );
   }
 
   public getCharactersByFilter(charactersFilter: CharactersFilter) {
     return this.httpClient
-      .get<PaginatedResponseDTO<CharacterResponse>>(this.URL, {
+      .get<PaginatedResponseDTO<CharacterDTO>>(this.URL, {
         params: createHttpParamsByFilter(charactersFilter),
       })
       .pipe(
         map((response) => {
           return {
             ...response,
-            results: response.results.map(CharacterAdapter.adapt),
+            results: response.results.map(CharacterAdapter.fromDTO),
           } as PaginatedResponseDTO<Character>;
         }),
       );

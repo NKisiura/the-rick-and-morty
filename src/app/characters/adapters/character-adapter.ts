@@ -1,26 +1,26 @@
-import { Character, CharacterResponse } from "@characters/types";
+import { Character, CharacterDTO } from "@characters/types";
 import { LocationLiteAdapter } from "@locations/adapters";
 import { extractEntityIdFromUrl } from "@shared/utils/url";
 
 export class CharacterAdapter {
-  public static adapt(response: CharacterResponse): Character {
+  public static fromDTO(dto: CharacterDTO): Character {
     return {
-      id: response.id,
-      name: response.name,
-      status: response.status,
-      species: response.species,
-      type: response.type,
-      gender: response.gender,
-      origin: LocationLiteAdapter.adapt(response.origin),
-      location: LocationLiteAdapter.adapt(response.location),
-      image: response.image,
-      episodeIds: response.episode.map(extractEntityIdFromUrl),
-      url: response.url,
-      created: new Date(response.created),
+      id: dto.id,
+      name: dto.name,
+      status: dto.status,
+      species: dto.species,
+      type: dto.type,
+      gender: dto.gender,
+      origin: LocationLiteAdapter.fromDTO(dto.origin),
+      location: LocationLiteAdapter.fromDTO(dto.location),
+      image: dto.image,
+      episodeIds: dto.episode.map(extractEntityIdFromUrl),
+      url: dto.url,
+      created: new Date(dto.created),
     };
   }
 
-  public static adaptArray(response: CharacterResponse[]): Character[] {
-    return response.map(CharacterAdapter.adapt);
+  public static fromDTOList(dtoList: CharacterDTO[]): Character[] {
+    return dtoList.map(CharacterAdapter.fromDTO);
   }
 }

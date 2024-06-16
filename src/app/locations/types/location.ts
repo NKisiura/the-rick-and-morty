@@ -8,7 +8,7 @@ export interface Location {
   readonly created: Date;
 }
 
-export interface LocationResponse {
+export interface LocationDTO {
   readonly id: number;
   readonly name: string;
   readonly type: string;

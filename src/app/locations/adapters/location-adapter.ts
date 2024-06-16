@@ -1,20 +1,20 @@
-import { Location, LocationResponse } from "@locations/types";
+import { Location, LocationDTO } from "@locations/types";
 import { extractEntityIdFromUrl } from "@shared/utils/url";
 
 export class LocationAdapter {
-  public static adapt(response: LocationResponse): Location {
+  public static fromDTO(dto: LocationDTO): Location {
     return {
-      id: response.id,
-      name: response.name,
-      type: response.type,
-      dimension: response.dimension,
-      residentIds: response.residents.map(extractEntityIdFromUrl),
-      url: response.url,
-      created: new Date(response.created),
+      id: dto.id,
+      name: dto.name,
+      type: dto.type,
+      dimension: dto.dimension,
+      residentIds: dto.residents.map(extractEntityIdFromUrl),
+      url: dto.url,
+      created: new Date(dto.created),
     };
   }
 
-  public static adaptArray(response: LocationResponse[]): Location[] {
-    return response.map(LocationAdapter.adapt);
+  public static fromDTOList(dtoList: LocationDTO[]): Location[] {
+    return dtoList.map(LocationAdapter.fromDTO);
   }
 }
