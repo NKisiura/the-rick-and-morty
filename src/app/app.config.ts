@@ -7,7 +7,7 @@ import {
 
 import { routes } from "./app.routes";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
-import { apiBaseUrlInterceptor } from "@core/interceptors";
+import { apiBaseUrlInterceptor, retryInterceptor } from "@core/interceptors";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +16,8 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withViewTransitions({ skipInitialTransition: true }),
     ),
-    provideHttpClient(withInterceptors([apiBaseUrlInterceptor])),
+    provideHttpClient(
+      withInterceptors([apiBaseUrlInterceptor, retryInterceptor]),
+    ),
   ],
 };
