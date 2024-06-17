@@ -1,39 +1,33 @@
 import { Routes } from "@angular/router";
-
-export enum AppRoutes {
-  HOME = "home",
-  CHARACTERS = "characters",
-  EPISODES = "episodes",
-  LOCATIONS = "locations",
-}
+import { APP_ROUTES } from "@shared/constants";
 
 export const routes: Routes = [
   {
-    path: AppRoutes.HOME,
+    path: APP_ROUTES.HOME,
     loadChildren: () => import("./home/home-routes").then((m) => m.homeRoutes),
   },
   {
-    path: AppRoutes.CHARACTERS,
+    path: APP_ROUTES.CHARACTERS,
     loadChildren: () =>
       import("./characters/characters-routes").then((m) => m.charactersRoutes),
   },
   {
-    path: AppRoutes.EPISODES,
+    path: APP_ROUTES.EPISODES,
     loadChildren: () =>
       import("./episodes/episodes-routes").then((m) => m.episodesRoutes),
   },
   {
-    path: AppRoutes.LOCATIONS,
+    path: APP_ROUTES.LOCATIONS,
     loadChildren: () =>
       import("./locations/locations-routes").then((m) => m.locationsRoutes),
   },
   {
     path: "",
-    redirectTo: AppRoutes.HOME,
+    redirectTo: APP_ROUTES.HOME,
     pathMatch: "full",
   },
   {
     path: "**",
-    redirectTo: AppRoutes.HOME,
+    redirectTo: APP_ROUTES.HOME,
   },
 ];
