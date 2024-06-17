@@ -1,1 +1,1 @@
-npx lint-staged
+npx lint-staged && ng test --watch=false
