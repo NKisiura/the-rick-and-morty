@@ -1,0 +1,27 @@
+<div class="mb-3 flex gap-3">
+  <label>
+    Name
+    <input
+      type="text"
+      class="border"
+      [disabled]="isDisabled"
+      [(ngModel)]="filter.name"
+      (input)="handleFilterChangeWithDebounce('name', filter.name)"
+    />
+  </label>
+  <label>
+    Season
+    <select
+      class="border"
+      [disabled]="isDisabled"
+      [(ngModel)]="filter.episode"
+      (change)="handleFilterChange('episode', filter.episode)"
+    >
+      <option></option>
+      @for (season of seasons(); track season) {
+        <option>{{ season }}</option>
+      }
+    </select>
+  </label>
+  <button type="button" (click)="clearFilter()">Clear</button>
+</div>
