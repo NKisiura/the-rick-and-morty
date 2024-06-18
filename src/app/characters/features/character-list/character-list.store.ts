@@ -2,7 +2,11 @@ import { ComponentStore } from "@ngrx/component-store";
 import { inject, Injectable } from "@angular/core";
 import { CharactersApiService } from "@characters/services";
 import { Character, CharactersFilter } from "@characters/types";
-import { BackendErrorResponse, PaginatedResponseDTO } from "@shared/types/http";
+import {
+  BackendErrorResponse,
+  PaginatedResponseDTO,
+  PaginationInfo,
+} from "@shared/types/http";
 import { switchMap, tap } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { tapResponse } from "@ngrx/operators";
@@ -10,14 +14,16 @@ import { tapResponse } from "@ngrx/operators";
 interface CharacterListState {
   readonly filter: CharactersFilter;
   readonly isLoading: boolean;
-  readonly paginatedCharacterList: PaginatedResponseDTO<Character> | null;
+  readonly characters: Character[] | null;
+  readonly paginationInfo: PaginationInfo | null;
   readonly error: BackendErrorResponse | null;
 }
 
 const initialState: CharacterListState = {
   filter: {},
   isLoading: false,
-  paginatedCharacterList: null,
+  characters: null,
+  paginationInfo: null,
   error: null,
 };
 
@@ -32,7 +38,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
   // ------------------------- SELECTORS -------------------------
 
   public readonly characters = this.selectSignal(
-    ({ paginatedCharacterList }) => paginatedCharacterList?.results || null,
+    ({ characters }) => characters,
   );
   public readonly charactersLoading = this.selectSignal(
     ({ isLoading }) => isLoading,
@@ -45,7 +51,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     ({ page }) => page || 1,
   );
   public readonly pagesCount = this.selectSignal(
-    ({ paginatedCharacterList }) => paginatedCharacterList?.info.pages || 1,
+    ({ paginationInfo }) => paginationInfo?.pages || 1,
   );
 
   // ------------------------- EFFECTS -------------------------
@@ -77,11 +83,12 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
   private readonly getCharactersSuccess = this.updater(
     (
       state,
-      paginatedCharacterList: PaginatedResponseDTO<Character>,
+      { info, results }: PaginatedResponseDTO<Character>,
     ): CharacterListState => ({
       ...state,
       isLoading: false,
-      paginatedCharacterList: paginatedCharacterList,
+      characters: results,
+      paginationInfo: info,
       error: null,
     }),
   );
@@ -90,7 +97,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     (state, error: BackendErrorResponse): CharacterListState => ({
       ...state,
       isLoading: false,
-      paginatedCharacterList: null,
+      characters: null,
+      paginationInfo: null,
       error: error,
     }),
   );
