@@ -71,8 +71,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
                 this.getCharacterSuccess(character);
                 this.getCharacterEpisodesByIdList(character.episodeIds);
               },
-              (error: HttpErrorResponse) => {
-                this.getCharacterFailure(error.error);
+              ({ error }: HttpErrorResponse) => {
+                this.getCharacterFailure(error);
               },
             ),
           ),
@@ -90,8 +90,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
               (episodes) => {
                 this.getCharacterEpisodesSuccess(episodes);
               },
-              (error: HttpErrorResponse) => {
-                this.getCharacterEpisodesFailure(error.error);
+              ({ error }: HttpErrorResponse) => {
+                this.getCharacterEpisodesFailure(error);
               },
             ),
           ),

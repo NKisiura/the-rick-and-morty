@@ -11,11 +11,7 @@ import { apiBaseUrlInterceptor, retryInterceptor } from "@core/interceptors";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(
-      routes,
-      withComponentInputBinding(),
-      withViewTransitions({ skipInitialTransition: true }),
-    ),
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
     provideHttpClient(
       withInterceptors([apiBaseUrlInterceptor, retryInterceptor]),
     ),

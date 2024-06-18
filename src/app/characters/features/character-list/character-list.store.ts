@@ -41,7 +41,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   public readonly charactersFilter = this.selectSignal(({ filter }) => filter);
   public readonly currentPage = this.selectSignal(
-    ({ filter }) => filter.page || 1,
+    this.charactersFilter,
+    ({ page }) => page || 1,
   );
   public readonly pagesCount = this.selectSignal(
     ({ paginatedCharacterList }) => paginatedCharacterList?.info.pages || 1,
@@ -61,8 +62,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
                 (paginatedCharacterList) => {
                   this.getCharactersSuccess(paginatedCharacterList);
                 },
-                (error: HttpErrorResponse) => {
-                  this.getCharactersFailure(error.error);
+                ({ error }: HttpErrorResponse) => {
+                  this.getCharactersFailure(error);
                 },
               ),
             ),
