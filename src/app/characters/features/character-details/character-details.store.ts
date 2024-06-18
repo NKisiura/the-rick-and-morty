@@ -9,7 +9,7 @@ import { switchMap, tap } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { HttpErrorResponse } from "@angular/common/http";
 
-export interface CharacterDetailsState {
+interface CharacterDetailsState {
   readonly characterLoading: boolean;
   readonly character: Character | null;
   readonly characterError: BackendErrorResponse | null;
@@ -40,20 +40,20 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
 
   // ------------------------- SELECTORS -------------------------
 
-  public readonly character = this.selectSignal((state) => state.character);
+  public readonly character = this.selectSignal(({ character }) => character);
   public readonly characterLoading = this.selectSignal(
-    (state) => state.characterLoading,
+    ({ characterLoading }) => characterLoading,
   );
   public readonly characterError = this.selectSignal(
-    (state) => state.characterError,
+    ({ characterError }) => characterError,
   );
 
-  public readonly episodes = this.selectSignal((state) => state.episodes);
+  public readonly episodes = this.selectSignal(({ episodes }) => episodes);
   public readonly episodesLoading = this.selectSignal(
-    (state) => state.episodesLoading,
+    ({ episodesLoading }) => episodesLoading,
   );
   public readonly episodesError = this.selectSignal(
-    (state) => state.episodesError,
+    ({ episodesError }) => episodesError,
   );
 
   // ------------------------- EFFECTS -------------------------

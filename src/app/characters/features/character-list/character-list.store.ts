@@ -7,7 +7,7 @@ import { switchMap, tap } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { tapResponse } from "@ngrx/operators";
 
-export interface CharacterListState {
+interface CharacterListState {
   readonly filter: CharactersFilter;
   readonly isLoading: boolean;
   readonly paginatedCharacterList: PaginatedResponseDTO<Character> | null;
@@ -31,26 +31,20 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- SELECTORS -------------------------
 
-  private readonly paginatedCharacterList = this.selectSignal(
-    (state) => state.paginatedCharacterList,
-  );
-
   public readonly characters = this.selectSignal(
-    this.paginatedCharacterList,
-    (paginatedCharacterList) => paginatedCharacterList?.results || null,
+    ({ paginatedCharacterList }) => paginatedCharacterList?.results || null,
   );
   public readonly charactersLoading = this.selectSignal(
-    (state) => state.isLoading,
+    ({ isLoading }) => isLoading,
   );
-  public readonly error = this.selectSignal((state) => state.error);
+  public readonly error = this.selectSignal(({ error }) => error);
 
-  public readonly charactersFilter = this.selectSignal((state) => state.filter);
+  public readonly charactersFilter = this.selectSignal(({ filter }) => filter);
   public readonly currentPage = this.selectSignal(
-    (state) => state.filter.page || 1,
+    ({ filter }) => filter.page || 1,
   );
   public readonly pagesCount = this.selectSignal(
-    this.paginatedCharacterList,
-    (paginatedCharacterList) => paginatedCharacterList?.info.pages || 1,
+    ({ paginatedCharacterList }) => paginatedCharacterList?.info.pages || 1,
   );
 
   // ------------------------- EFFECTS -------------------------
