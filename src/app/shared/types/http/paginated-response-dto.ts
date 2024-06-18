@@ -3,7 +3,7 @@ export interface PaginatedResponseDTO<T> {
   readonly results: T[];
 }
 
-interface PaginationInfo {
+export interface PaginationInfo {
   readonly count: number;
   readonly pages: number;
   readonly next: string | null;

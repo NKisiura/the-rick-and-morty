@@ -1,1 +1,26 @@
-<p>episode-list.page works!</p>
+<episodes-filter
+  [filter]="episodesFilter()"
+  [isDisabled]="episodesLoading()"
+  (filterChange)="handleFilterChange($event)"
+></episodes-filter>
+
+<pagination
+  [page]="currentPage()"
+  [pagesCount]="pagesCount()"
+  [isDisabled]="episodesLoading()"
+  (pageChange)="handlePageChange($event)"
+></pagination>
+
+@if (episodesLoading()) {
+  <div>Loading...</div>
+}
+
+@if (error(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (episodes(); as episodes) {
+  @for (episode of episodes; track episode.id) {
+    <episode-card [episode]="episode"></episode-card>
+  }
+}
