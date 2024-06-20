@@ -1,1 +1,28 @@
-<p>episode-details.page works!</p>
+@if (episodeLoading()) {
+  <div>Loading...</div>
+}
+
+@if (episodeError(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (episode(); as episode) {
+  <div>{{ episode.name }} {{ episode.episode }}</div>
+}
+
+@if (episodeCharactersLoading()) {
+  <div>Characters Loading...</div>
+}
+
+@if (episodeCharactersError(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (episodeCharacters(); as characters) {
+  @for (character of characters; track character.id; let last = $last) {
+    <span>{{ character.name }}</span>
+    @if (!last) {
+      <span>, </span>
+    }
+  }
+}
