@@ -1,1 +1,1 @@
-npx lint-staged && ng test --watch=false
+npx lint-staged && ng test --no-watch --no-progress --browsers=ChromeHeadless
