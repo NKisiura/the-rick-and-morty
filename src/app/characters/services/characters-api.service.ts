@@ -41,7 +41,7 @@ export class CharactersApiService {
         map((response) => {
           return {
             ...response,
-            results: response.results.map(CharacterAdapter.fromDTO),
+            results: CharacterAdapter.fromDTOList(response.results),
           } as PaginatedResponseDTO<Character>;
         }),
       );

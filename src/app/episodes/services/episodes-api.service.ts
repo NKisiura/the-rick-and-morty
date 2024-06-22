@@ -39,7 +39,7 @@ export class EpisodesApiService {
         map((response) => {
           return {
             ...response,
-            results: response.results.map(EpisodeAdapter.fromDTO),
+            results: EpisodeAdapter.fromDTOList(response.results),
           } as PaginatedResponseDTO<Episode>;
         }),
       );
