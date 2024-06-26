@@ -3,7 +3,7 @@ import { Location } from "@locations/types";
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: "app-location-card",
+  selector: "location-card",
   standalone: true,
   imports: [RouterLink],
   templateUrl: "./location-card.component.html",

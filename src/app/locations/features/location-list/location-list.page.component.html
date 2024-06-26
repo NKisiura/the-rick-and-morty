@@ -1,1 +1,26 @@
-<p>location-list.page works!</p>
+<locations-filter
+  [filter]="locationsFilter()"
+  [isDisabled]="locationsLoading()"
+  (filterChange)="handleFilterChange($event)"
+></locations-filter>
+
+<pagination
+  [page]="currentPage()"
+  [pagesCount]="pagesCount()"
+  [isDisabled]="locationsLoading()"
+  (pageChange)="handlePageChange($event)"
+></pagination>
+
+@if (locationsLoading()) {
+  <div class="mb-3">Loading...</div>
+}
+
+@if (error(); as error) {
+  <div>{{ error.error }}</div>
+}
+
+@if (locations(); as locations) {
+  @for (location of locations; track location.id) {
+    <location-card [location]="location"></location-card>
+  }
+}

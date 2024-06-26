@@ -37,7 +37,7 @@ export class LocationListStore extends ComponentStore<LocationListState> {
 
   // ------------------------- SELECTORS -------------------------
 
-  public readonly location = this.selectSignal(({ locations }) => locations);
+  public readonly locations = this.selectSignal(({ locations }) => locations);
   public readonly locationsLoading = this.selectSignal(
     ({ isLoading }) => isLoading,
   );

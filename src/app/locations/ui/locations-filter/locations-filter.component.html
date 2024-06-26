@@ -1,0 +1,33 @@
+<div class="mb-3 flex gap-3">
+  <label>
+    Name
+    <input
+      type="text"
+      class="border"
+      [disabled]="isDisabled"
+      [(ngModel)]="filter.name"
+      (input)="handleFilterChangeWithDebounce('name', filter.name)"
+    />
+  </label>
+  <label>
+    Type
+    <input
+      type="text"
+      class="border"
+      [disabled]="isDisabled"
+      [(ngModel)]="filter.type"
+      (input)="handleFilterChangeWithDebounce('type', filter.type)"
+    />
+  </label>
+  <label>
+    Dimension
+    <input
+      type="text"
+      class="border"
+      [disabled]="isDisabled"
+      [(ngModel)]="filter.dimension"
+      (input)="handleFilterChangeWithDebounce('dimension', filter.dimension)"
+    />
+  </label>
+  <button type="button" (click)="clearFilter()">Clear</button>
+</div>
