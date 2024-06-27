@@ -1,0 +1,40 @@
+<header class="flex">
+  <a [routerLink]="[APP_ROUTES.HOME]">
+    <img
+      ngSrc="assets/logo.svg"
+      width="1000"
+      height="305"
+      alt="Rick And Morty Logo"
+      priority
+    />
+  </a>
+  <ul class="flex">
+    <li>
+      <a
+        [routerLink]="[APP_ROUTES.CHARACTERS]"
+        [routerLinkActive]="'font-bold'"
+        [routerLinkActiveOptions]="routerLinkActiveOptions"
+      >
+        Characters
+      </a>
+    </li>
+    <li>
+      <a
+        [routerLink]="[APP_ROUTES.EPISODES]"
+        [routerLinkActive]="'font-bold'"
+        [routerLinkActiveOptions]="routerLinkActiveOptions"
+      >
+        Episodes
+      </a>
+    </li>
+    <li>
+      <a
+        [routerLink]="[APP_ROUTES.LOCATIONS]"
+        [routerLinkActive]="'font-bold'"
+        [routerLinkActiveOptions]="routerLinkActiveOptions"
+      >
+        Locations
+      </a>
+    </li>
+  </ul>
+</header>
