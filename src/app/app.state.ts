@@ -72,7 +72,7 @@ export const appStateFeature = createFeature({
     selectHttpRequestLoading,
     selectRouterNavigationLoading,
   }) => ({
-    httpOrNavigationLoading: createSelector(
+    selectHttpOrNavigationLoading: createSelector(
       selectHttpRequestLoading,
       selectRouterNavigationLoading,
       (httpLoading, navigationLoading) => httpLoading || navigationLoading,
