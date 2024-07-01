@@ -23,6 +23,7 @@
       "dom"
     ],
     "paths": {
+      "@app/*": ["./src/app/*"],
       "@home/*": ["./src/app/home/*"],
       "@characters/*": ["./src/app/characters/*"],
       "@episodes/*": ["./src/app/episodes/*"],
