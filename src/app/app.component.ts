@@ -7,7 +7,7 @@ import {
   DestroyRef,
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { HeaderComponent } from "@core/ui";
+import { FooterComponent, HeaderComponent } from "@core/ui";
 import { NgProgressComponent } from "ngx-progressbar";
 import { Store } from "@ngrx/store";
 import { appStateFeature } from "@app/app.state";
@@ -17,7 +17,12 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, NgProgressComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    NgProgressComponent,
+    FooterComponent,
+  ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
