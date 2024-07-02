@@ -1,40 +1,25 @@
-<header class="flex">
+<header class="header flex items-center">
   <a [routerLink]="[APP_ROUTES.HOME]">
     <img
       ngSrc="assets/logo.svg"
-      width="1000"
-      height="305"
-      alt="Rick And Morty Logo"
       priority
+      width="100"
+      height="30"
+      alt="Rick And Morty Logo"
     />
   </a>
   <ul class="flex">
-    <li>
-      <a
-        [routerLink]="[APP_ROUTES.CHARACTERS]"
-        [routerLinkActive]="'font-bold'"
-        [routerLinkActiveOptions]="routerLinkActiveOptions"
-      >
-        Characters
-      </a>
-    </li>
-    <li>
-      <a
-        [routerLink]="[APP_ROUTES.EPISODES]"
-        [routerLinkActive]="'font-bold'"
-        [routerLinkActiveOptions]="routerLinkActiveOptions"
-      >
-        Episodes
-      </a>
-    </li>
-    <li>
-      <a
-        [routerLink]="[APP_ROUTES.LOCATIONS]"
-        [routerLinkActive]="'font-bold'"
-        [routerLinkActiveOptions]="routerLinkActiveOptions"
-      >
-        Locations
-      </a>
-    </li>
+    @for (link of headerLinks; track link) {
+      <li>
+        <a
+          class="capitalize"
+          [routerLink]="[link]"
+          [routerLinkActive]="'font-bold'"
+          [routerLinkActiveOptions]="routerLinkActiveOptions"
+        >
+          {{ link }}
+        </a>
+      </li>
+    }
   </ul>
 </header>
