@@ -14,7 +14,6 @@ import {
 } from "@core/interceptors";
 import { provideState, provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
-import { provideRouterStore, routerReducer } from "@ngrx/router-store";
 import { appStateFeature } from "./app.state";
 
 export const appConfig: ApplicationConfig = {
@@ -27,9 +26,8 @@ export const appConfig: ApplicationConfig = {
         retryInterceptor,
       ]),
     ),
-    provideStore({ router: routerReducer }),
+    provideStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideRouterStore(),
     provideState(appStateFeature),
   ],
 };

@@ -6,12 +6,6 @@ import {
   emptyProps,
   on,
 } from "@ngrx/store";
-import {
-  routerCancelAction,
-  routerErrorAction,
-  routerNavigatedAction,
-  routerRequestAction,
-} from "@ngrx/router-store";
 
 export const HttpRequestActions = createActionGroup({
   source: "Http Request",
@@ -21,14 +15,22 @@ export const HttpRequestActions = createActionGroup({
   },
 });
 
+export const LazyNavigationActions = createActionGroup({
+  source: "Lazy Navigation",
+  events: {
+    "Lazy Module Loading Start": emptyProps(),
+    "Lazy Module Loading End": emptyProps(),
+  },
+});
+
 interface AppState {
   readonly httpRequestLoading: boolean;
-  readonly routerNavigationLoading: boolean;
+  readonly lazyNavigationLoading: boolean;
 }
 
 const initialState: AppState = {
   httpRequestLoading: false,
-  routerNavigationLoading: false,
+  lazyNavigationLoading: false,
 };
 
 const reducer = createReducer(
@@ -48,31 +50,17 @@ const reducer = createReducer(
     }),
   ),
   on(
-    routerRequestAction,
+    LazyNavigationActions.lazyModuleLoadingStart,
     (state): AppState => ({
       ...state,
-      routerNavigationLoading: true,
+      lazyNavigationLoading: true,
     }),
   ),
   on(
-    routerNavigatedAction,
+    LazyNavigationActions.lazyModuleLoadingEnd,
     (state): AppState => ({
       ...state,
-      routerNavigationLoading: false,
-    }),
-  ),
-  on(
-    routerCancelAction,
-    (state): AppState => ({
-      ...state,
-      routerNavigationLoading: false,
-    }),
-  ),
-  on(
-    routerErrorAction,
-    (state): AppState => ({
-      ...state,
-      routerNavigationLoading: false,
+      lazyNavigationLoading: false,
     }),
   ),
 );
@@ -82,12 +70,14 @@ export const appStateFeature = createFeature({
   reducer,
   extraSelectors: ({
     selectHttpRequestLoading,
-    selectRouterNavigationLoading,
+    selectLazyNavigationLoading,
   }) => ({
-    selectHttpOrNavigationLoading: createSelector(
+    selectHttpOrLazyNavigationLoading: createSelector(
       selectHttpRequestLoading,
-      selectRouterNavigationLoading,
-      (httpLoading, navigationLoading) => httpLoading || navigationLoading,
+      selectLazyNavigationLoading,
+      (httpLoading, lazyNavigationLoading) => {
+        return httpLoading || lazyNavigationLoading;
+      },
     ),
   }),
 });

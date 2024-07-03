@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 import { appStateFeature } from "@app/app.state";
 import { skip } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { LazyNavigationLoadingTrackerService } from "@core/services";
 
 @Component({
   selector: "app-root",
@@ -30,18 +31,25 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 export class AppComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(Store);
+  private readonly lazyNavigationTracker = inject(
+    LazyNavigationLoadingTrackerService,
+  );
 
   private progressbar = viewChild(NgProgressComponent);
-  private httpOrNavigationLoading$ = this.store.select(
-    appStateFeature.selectHttpOrNavigationLoading,
+  private httpOrLazyNavigationLoading$ = this.store.select(
+    appStateFeature.selectHttpOrLazyNavigationLoading,
   );
+
+  constructor() {
+    this.lazyNavigationTracker.initLazyNavigationLoadingTracking();
+  }
 
   ngAfterViewInit(): void {
     this.initProgressbar();
   }
 
   private initProgressbar(): void {
-    this.httpOrNavigationLoading$
+    this.httpOrLazyNavigationLoading$
       .pipe(skip(1), takeUntilDestroyed(this.destroyRef))
       .subscribe((isLoading) => {
         const progressbar = this.progressbar();
