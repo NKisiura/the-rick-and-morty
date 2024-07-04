@@ -8,10 +8,15 @@ module.exports = {
       center: true,
       padding: '1rem',
     },
-    extend: {},
+    extend: {
+      colors: {
+        'primary': '#F7F7F7',
+        'accent': '#87F54E'
+      }
+    },
     fontFamily: {
-      'decorative': ['permanent_marker'],
-      'primary': ['ibm_plex_mono']
+      'primary': ['ibm_plex_mono', 'sans-serif'],
+      'decorative': ['permanent_marker', 'sans-serif']
     }
   },
   plugins: [],
