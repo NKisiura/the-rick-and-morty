@@ -17,6 +17,7 @@ import { NgOptimizedImage } from "@angular/common";
 })
 export class HeaderComponent {
   public APP_ROUTES = APP_ROUTES;
+
   public headerLinks: APP_ROUTES[] = [
     this.APP_ROUTES.CHARACTERS,
     this.APP_ROUTES.EPISODES,
@@ -28,4 +29,6 @@ export class HeaderComponent {
     paths: "exact",
     fragment: "ignored",
   };
+
+  public githubLink = "https://github.com/NKisiura";
 }

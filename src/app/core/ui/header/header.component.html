@@ -1,4 +1,6 @@
-<header class="header flex items-center">
+<header
+  class="header flex items-center justify-between font-primary text-primary"
+>
   <a [routerLink]="[APP_ROUTES.HOME]">
     <img
       ngSrc="assets/logo.svg"
@@ -8,7 +10,7 @@
       alt="Rick And Morty Logo"
     />
   </a>
-  <ul class="flex">
+  <ul class="flex gap-8 lg:gap-16">
     @for (link of headerLinks; track link) {
       <li>
         <a
@@ -22,4 +24,5 @@
       </li>
     }
   </ul>
+  <a [href]="githubLink" target="_blank"> NKisiura </a>
 </header>

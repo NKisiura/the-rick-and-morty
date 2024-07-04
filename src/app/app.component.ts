@@ -7,7 +7,7 @@ import {
   DestroyRef,
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { FooterComponent, HeaderComponent } from "@core/ui";
+import { HeaderComponent } from "@core/ui";
 import { NgProgressComponent } from "ngx-progressbar";
 import { Store } from "@ngrx/store";
 import { appStateFeature } from "@app/app.state";
@@ -18,12 +18,7 @@ import { LazyNavigationLoadingTrackerService } from "@core/services";
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [
-    RouterOutlet,
-    HeaderComponent,
-    NgProgressComponent,
-    FooterComponent,
-  ],
+  imports: [RouterOutlet, HeaderComponent, NgProgressComponent],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
