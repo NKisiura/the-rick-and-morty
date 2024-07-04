@@ -9,6 +9,10 @@ module.exports = {
       padding: '1rem',
     },
     extend: {},
+    fontFamily: {
+      'decorative': ['permanent_marker'],
+      'primary': ['ibm_plex_mono']
+    }
   },
   plugins: [],
 }
