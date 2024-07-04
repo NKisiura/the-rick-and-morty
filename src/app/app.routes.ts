@@ -28,6 +28,9 @@ export const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: APP_ROUTES.HOME,
+    loadComponent: () =>
+      import("@core/ui/page-not-found/page-not-found.component").then(
+        (m) => m.PageNotFoundComponent,
+      ),
   },
 ];
