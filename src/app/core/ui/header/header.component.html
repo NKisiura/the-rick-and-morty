@@ -1,28 +1,30 @@
-<header
-  class="header flex items-center justify-between font-primary text-primary"
->
-  <a [routerLink]="[APP_ROUTES.HOME]">
-    <img
-      ngSrc="assets/logo.svg"
-      priority
-      width="115"
-      height="35"
-      alt="Rick And Morty Logo"
-    />
-  </a>
-  <ul class="flex gap-8 lg:gap-16">
-    @for (link of headerLinks; track link) {
-      <li>
-        <a
-          class="capitalize"
-          [routerLink]="[link]"
-          [routerLinkActive]="'font-bold'"
-          [routerLinkActiveOptions]="routerLinkActiveOptions"
-        >
-          {{ link }}
-        </a>
-      </li>
-    }
-  </ul>
-  <a [href]="githubLink" target="_blank"> NKisiura </a>
+<header class="header flex items-center font-primary text-primary">
+  <div class="container">
+    <div class="flex items-center justify-between">
+      <a [routerLink]="[APP_ROUTES.HOME]">
+        <img
+          ngSrc="assets/logo.svg"
+          priority
+          width="164"
+          height="50"
+          alt="Rick And Morty Logo"
+        />
+      </a>
+      <ul class="flex gap-8 lg:gap-16">
+        @for (link of headerLinks; track link) {
+          <li>
+            <a
+              class="capitalize"
+              [routerLink]="[link]"
+              [routerLinkActive]="'font-bold'"
+              [routerLinkActiveOptions]="routerLinkActiveOptions"
+            >
+              {{ link }}
+            </a>
+          </li>
+        }
+      </ul>
+      <a [href]="githubLink" target="_blank"> NKisiura </a>
+    </div>
+  </div>
 </header>
