@@ -10,7 +10,7 @@
           alt="Rick And Morty Logo"
         />
       </a>
-      <ul class="flex gap-8 lg:gap-16">
+      <ul class="hidden gap-16 lg:flex">
         @for (link of headerLinks; track link) {
           <li>
             <a
@@ -24,7 +24,10 @@
           </li>
         }
       </ul>
-      <a [href]="githubLink" target="_blank"> NKisiura </a>
+      <a [href]="githubLink" target="_blank" class="hidden lg:inline">
+        NKisiura
+      </a>
+      <button type="button" class="lg:hidden">burger</button>
     </div>
   </div>
 </header>
