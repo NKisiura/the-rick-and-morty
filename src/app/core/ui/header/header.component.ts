@@ -6,16 +6,24 @@ import {
 } from "@angular/router";
 import { APP_ROUTES } from "@shared/constants";
 import { NgOptimizedImage } from "@angular/common";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
+  imports: [RouterLink, RouterLinkActive, NgOptimizedImage, FaIconComponent],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
+  public githubLink = "https://github.com/NKisiura";
+
+  public githubIcon = faGithub;
+  public barsIcon = faBars;
+
   public APP_ROUTES = APP_ROUTES;
 
   public headerLinks: APP_ROUTES[] = [
@@ -29,6 +37,4 @@ export class HeaderComponent {
     paths: "exact",
     fragment: "ignored",
   };
-
-  public githubLink = "https://github.com/NKisiura";
 }

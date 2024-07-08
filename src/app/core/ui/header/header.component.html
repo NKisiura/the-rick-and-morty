@@ -29,9 +29,13 @@
         target="_blank"
         class="relative hidden before:absolute before:bottom-0 before:h-0.5 before:w-0 before:rounded-xl before:bg-accent before:transition-[width] before:content-[''] before:hover:w-full lg:inline"
       >
-        NKisiura
+        <span class="flex gap-1">
+          <fa-icon [icon]="githubIcon"></fa-icon> NKisiura
+        </span>
       </a>
-      <button type="button" class="lg:hidden">burger</button>
+      <button type="button" class="lg:hidden">
+        <fa-icon [icon]="barsIcon" size="2xl"></fa-icon>
+      </button>
     </div>
   </div>
 </header>
