@@ -17,6 +17,7 @@ module.exports = {
       },
       backgroundImage: {
         'app-background-pattern': "url('/assets/app-background.png')",
+        'greeting-section-background-pattern': "url('/assets/home-greeting-section-bg.png')",
       }
     },
     fontFamily: {
