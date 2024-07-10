@@ -2,11 +2,19 @@
   font-family: 'ibm_plex_mono';
   src: url('./ibmplexmono-bold-webfont.woff2') format('woff2'),
   url('./ibmplexmono-bold-webfont.woff') format('woff');
-  font-weight: bold;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'ibm_plex_mono';
+  src: url('./ibmplexmono-medium-webfont.woff2') format('woff2'),
+  url('./ibmplexmono-medium-webfont.woff') format('woff');
+  font-weight: 500;
 }
 
 @font-face {
   font-family: 'ibm_plex_mono';
   src: url('./ibmplexmono-regular-webfont.woff2') format('woff2'),
   url('./ibmplexmono-regular-webfont.woff') format('woff');
+  font-weight: 400;
 }
