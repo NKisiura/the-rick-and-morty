@@ -13,7 +13,8 @@ module.exports = {
         'app-background': '#000910',
         'primary': '#F7F7F7',
         'accent': '#87F54E',
-        'light-blue': '#11B0C8'
+        'light-blue': '#11B0C8',
+        'dark-blue': '#070728'
       },
       backgroundImage: {
         'app-background-pattern': "url('/assets/app-background.png')",
