@@ -1,12 +1,32 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { GreetingSectionComponent } from "@home/ui/greeting-section/greeting-section.component";
+import { GreetingSectionComponent, PageLinkCardComponent } from "@home/ui";
+import { PageLinkCard } from "@home/types";
+import { APP_ROUTES } from "@shared/constants";
 
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [GreetingSectionComponent],
+  imports: [GreetingSectionComponent, PageLinkCardComponent],
   templateUrl: "./home.page.component.html",
   styleUrl: "./home.page.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  public pageLinkCards: PageLinkCard[] = [
+    {
+      cardName: "Characters",
+      imageSrc: "assets/home-characters-card-bg.png",
+      link: APP_ROUTES.CHARACTERS,
+    },
+    {
+      cardName: "Episodes",
+      imageSrc: "assets/home-episodes-card-bg.png",
+      link: APP_ROUTES.EPISODES,
+    },
+    {
+      cardName: "Locations",
+      imageSrc: "assets/home-locations-card-bg.png",
+      link: APP_ROUTES.LOCATIONS,
+    },
+  ];
+}

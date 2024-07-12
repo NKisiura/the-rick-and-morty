@@ -1,0 +1,34 @@
+@if (pageLinkCard(); as card) {
+  <div
+    class="relative flex h-[270px] items-end overflow-hidden rounded-xl border border-blue bg-page-link-card-bg-pattern p-4 sm:h-[275px] md:h-[330px] lg:h-[290px] lg:p-6 xl:h-[365px] 2xl:h-[445px]"
+  >
+    <img
+      [ngSrc]="card.imageSrc"
+      width="400"
+      height="400"
+      class="absolute left-0 top-0 h-full w-full object-cover object-center"
+      alt=""
+    />
+    <div class="relative flex flex-col items-start gap-4">
+      <div
+        class="select-none font-decorative text-2xl text-primary md:text-3xl"
+      >
+        {{ card.cardName }}
+      </div>
+      <a
+        [routerLink]="[card.link]"
+        [relativeTo]="null"
+        class="group relative inline-flex"
+      >
+        <span
+          class="relative z-10 rounded-bl-lg rounded-br-sm rounded-tl-sm rounded-tr-lg border border-accent bg-dark-blue px-6 py-1.5 font-primary text-sm font-medium text-accent sm:text-base"
+        >
+          Go To Page
+        </span>
+        <span
+          class="absolute left-0 top-0 h-full w-full bg-accent blur-sm transition-[filter] group-hover:blur"
+        ></span>
+      </a>
+    </div>
+  </div>
+}
