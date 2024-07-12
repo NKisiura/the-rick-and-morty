@@ -5,6 +5,9 @@
       <div
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
       >
+        <div
+          class="col-span-2 hidden overflow-hidden rounded-xl border border-blue bg-decorative-card-bg bg-cover bg-center bg-no-repeat lg:block"
+        ></div>
         @for (card of pageLinkCards; track card) {
           <page-link-card [pageLinkCard]="card"></page-link-card>
         }
