@@ -1,0 +1,53 @@
+.ng-select.custom-select {
+  @apply font-primary capitalize;
+
+  &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    @apply border-accent shadow-none;
+  }
+
+  &.ng-select-opened > .ng-select-container .ng-arrow {
+    @apply border-t-transparent border-b-blue;
+  }
+
+  .ng-select-container {
+    @apply h-full bg-dark-blue rounded-lg border-blue text-accent transition-colors;
+
+    .ng-value-container {
+      @apply pl-4;
+
+      .ng-placeholder {
+        @apply font-light text-blue;
+      }
+
+      .ng-input {
+        @apply pl-4;
+      }
+    }
+
+    .ng-arrow {
+      @apply border-t-blue;
+    }
+
+    .ng-clear-wrapper:not(:hover) {
+      .ng-clear {
+        @apply text-blue;
+      }
+    }
+  }
+
+  .ng-dropdown-panel {
+    @apply border-blue bg-dark-blue rounded-b-lg overflow-hidden;
+
+    .ng-option {
+      @apply bg-dark-blue text-blue px-4;
+
+      &.ng-option-marked {
+        @apply bg-blue/25;
+      }
+
+      &.ng-option-selected {
+        @apply text-accent;
+      }
+    }
+  }
+}
