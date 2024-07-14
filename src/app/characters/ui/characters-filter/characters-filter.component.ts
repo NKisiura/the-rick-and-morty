@@ -12,11 +12,12 @@ import {
 } from "@characters/types";
 import { debounce, values } from "lodash";
 import { FormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @Component({
   selector: "characters-filter",
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgSelectModule],
   templateUrl: "./characters-filter.component.html",
   styleUrl: "./characters-filter.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,26 +26,19 @@ export class CharactersFilterComponent {
   public characterStatuses = signal(values(CharacterStatus)).asReadonly();
   public characterGenders = signal(values(CharacterGender)).asReadonly();
 
-  @Input({ required: true }) public filter: CharactersFilter = {};
-  @Input() public isDisabled = false;
-
+  @Input() public filter: CharactersFilter = {};
   public filterChange = output<CharactersFilter>();
 
-  public handleFilterChange(
-    prop: keyof CharactersFilter,
-    value: unknown,
-  ): void {
-    this.filterChange.emit({ ...this.filter, [prop]: value || null });
+  public handleFilterChange(): void {
+    this.filterChange.emit({ ...this.filter });
   }
 
-  public handleFilterChangeWithDebounce = debounce(
-    (prop: keyof CharactersFilter, value: unknown) => {
-      this.handleFilterChange(prop, value);
-    },
-    300,
-  );
+  public handleFilterChangeWithDebounce = debounce(() => {
+    this.handleFilterChange();
+  }, 300);
 
   public clearFilter(): void {
-    this.filterChange.emit({});
+    this.filter = {};
+    this.handleFilterChange();
   }
 }

@@ -1,61 +1,48 @@
-<div class="mb-3 flex gap-3">
-  <label>
-    Name
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.name"
-      (input)="handleFilterChangeWithDebounce('name', filter.name)"
-    />
-  </label>
-  <label>
-    Type
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.type"
-      (input)="handleFilterChangeWithDebounce('type', filter.type)"
-    />
-  </label>
-  <label>
-    Species
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.species"
-      (input)="handleFilterChangeWithDebounce('species', filter.species)"
-    />
-  </label>
-  <label>
-    Status
-    <select
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.status"
-      (change)="handleFilterChange('status', filter.status)"
-    >
-      <option></option>
-      @for (status of characterStatuses(); track status) {
-        <option>{{ status }}</option>
-      }
-    </select>
-  </label>
-  <label>
-    Gender
-    <select
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.gender"
-      (change)="handleFilterChange('gender', filter.gender)"
-    >
-      <option></option>
-      @for (gender of characterGenders(); track gender) {
-        <option>{{ gender }}</option>
-      }
-    </select>
-  </label>
-  <button type="button" (click)="clearFilter()">Clear</button>
+<div
+  class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-11 lg:*:col-span-2"
+>
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Name"
+    [(ngModel)]="filter.name"
+    (input)="handleFilterChangeWithDebounce()"
+  />
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Type"
+    [(ngModel)]="filter.type"
+    (input)="handleFilterChangeWithDebounce()"
+  />
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Species"
+    [(ngModel)]="filter.species"
+    (input)="handleFilterChangeWithDebounce()"
+  />
+  <ng-select
+    class="custom-select"
+    placeholder="Status"
+    [searchable]="false"
+    [items]="characterStatuses()"
+    [(ngModel)]="filter.status"
+    (change)="handleFilterChange()"
+  ></ng-select>
+  <ng-select
+    class="custom-select"
+    placeholder="Gender"
+    [searchable]="false"
+    [items]="characterGenders()"
+    [(ngModel)]="filter.gender"
+    (change)="handleFilterChange()"
+  ></ng-select>
+  <button
+    type="button"
+    class="rounded-lg border border-accent bg-dark-blue font-primary font-medium text-accent transition-colors hover:bg-accent hover:text-dark-blue lg:!col-span-1"
+    (click)="clearFilter()"
+  >
+    Clear
+  </button>
 </div>
