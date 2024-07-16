@@ -42,11 +42,11 @@
       @apply bg-dark-blue text-blue px-4;
 
       &.ng-option-marked {
-        @apply bg-blue/25;
+        @apply bg-blue/15;
       }
 
       &.ng-option-selected {
-        @apply text-accent;
+        @apply text-accent bg-blue/25;
       }
     }
   }
