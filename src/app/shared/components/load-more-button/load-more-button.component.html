@@ -1,0 +1,11 @@
+<button
+  type="button"
+  class="rounded-3xl border border-blue px-4 py-1.5 font-primary text-blue transition-colors hover:bg-blue hover:text-dark-blue lg:px-6 lg:py-2 lg:text-lg"
+>
+  <fa-icon
+    [icon]="isLoading() ? loadingIcon : loadMoreIcon"
+    [animation]="isLoading() ? 'spin' : undefined"
+    size="lg"
+  ></fa-icon>
+  {{ isLoading() ? "Loading..." : "Show More" }}
+</button>
