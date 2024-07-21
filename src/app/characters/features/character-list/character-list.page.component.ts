@@ -10,8 +10,12 @@ import {
   CharacterCardComponent,
   CharactersFilterComponent,
 } from "@characters/ui";
-import { PaginationComponent } from "@shared/components";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+  ErrorMessageComponent,
+  LoaderComponent,
+  LoadMoreButtonComponent,
+  PaginationComponent,
+} from "@shared/components";
 
 @Component({
   selector: "app-character-list",
@@ -20,6 +24,9 @@ import { ActivatedRoute, Router } from "@angular/router";
     CharacterCardComponent,
     CharactersFilterComponent,
     PaginationComponent,
+    LoadMoreButtonComponent,
+    LoaderComponent,
+    ErrorMessageComponent,
   ],
   providers: [CharacterListStore],
   templateUrl: "./character-list.page.component.html",
@@ -28,37 +35,31 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class CharacterListPageComponent implements OnInit {
   private readonly characterListStore = inject(CharacterListStore);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
 
   public characters = this.characterListStore.characters;
   public charactersLoading = this.characterListStore.charactersLoading;
+  public hasLoadedCharacters = this.characterListStore.hasLoadedCharacters;
   public error = this.characterListStore.error;
 
-  public charactersFilter = this.characterListStore.charactersFilter;
+  public initialFilter = this.characterListStore.initialFilter;
+
   public currentPage = this.characterListStore.currentPage;
   public pagesCount = this.characterListStore.pagesCount;
+  public isLastPage = this.characterListStore.isLastPage;
 
   ngOnInit(): void {
-    this.initCharacters();
+    this.handleFilterChange(this.initialFilter());
   }
 
-  private initCharacters(): void {
-    const { page, ...params } = this.activatedRoute.snapshot.queryParams;
-    this.updateCharacters({ ...params, page: +page || 1 });
+  public handleShowMore(): void {
+    this.characterListStore.nextPageRequested();
   }
 
   public handlePageChange(pageNumber: number): void {
-    this.updateCharacters({ ...this.charactersFilter(), page: pageNumber });
+    this.characterListStore.pageChanged(pageNumber);
   }
 
   public handleFilterChange(filter: CharactersFilter): void {
-    this.updateCharacters({ ...filter, page: 1 });
-  }
-
-  private updateCharacters(filter: CharactersFilter): void {
-    this.characterListStore.setFilter(filter);
-    this.characterListStore.getCharactersByFilter(this.charactersFilter());
-    this.router.navigate([], { queryParams: this.charactersFilter() });
+    this.characterListStore.filterUpdated(filter);
   }
 }

@@ -1,16 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  input,
+  OnInit,
   output,
-  signal,
 } from "@angular/core";
 import {
   CharactersFilter,
   CharacterStatus,
   CharacterGender,
 } from "@characters/types";
-import { debounce, values } from "lodash";
+import { values } from "lodash";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 
@@ -22,20 +22,22 @@ import { NgSelectModule } from "@ng-select/ng-select";
   styleUrl: "./characters-filter.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharactersFilterComponent {
-  public characterStatuses = signal(values(CharacterStatus)).asReadonly();
-  public characterGenders = signal(values(CharacterGender)).asReadonly();
+export class CharactersFilterComponent implements OnInit {
+  public readonly characterStatuses = values(CharacterStatus);
+  public readonly characterGenders = values(CharacterGender);
 
-  @Input() public filter: CharactersFilter = {};
+  public initialFilter = input<CharactersFilter>({});
   public filterChange = output<CharactersFilter>();
+
+  public filter: CharactersFilter = {};
+
+  ngOnInit(): void {
+    this.filter = this.initialFilter();
+  }
 
   public handleFilterChange(): void {
     this.filterChange.emit({ ...this.filter });
   }
-
-  public handleFilterChangeWithDebounce = debounce(() => {
-    this.handleFilterChange();
-  }, 300);
 
   public clearFilter(): void {
     this.filter = {};

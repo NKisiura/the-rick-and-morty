@@ -1,26 +1,50 @@
-<characters-filter
-  [filter]="charactersFilter()"
-  [isDisabled]="charactersLoading()"
-  (filterChange)="handleFilterChange($event)"
-></characters-filter>
+<div class="pb-4 lg:pb-6">
+  <div
+    class="sticky top-header-height bg-app-background bg-app-background-pattern pb-4 pt-2 lg:pb-6"
+  >
+    <div class="container">
+      <div class="rounded-xl bg-light-blue/10 p-4">
+        <characters-filter
+          [initialFilter]="initialFilter()"
+          (filterChange)="handleFilterChange($event)"
+        ></characters-filter>
+      </div>
+    </div>
+  </div>
 
-<pagination
-  [page]="currentPage()"
-  [pagesCount]="pagesCount()"
-  [isDisabled]="charactersLoading()"
-  (pageChange)="handlePageChange($event)"
-></pagination>
+  <div class="container">
+    @if (hasLoadedCharacters()) {
+      <div class="flex flex-col gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+          @for (character of characters(); track character.id) {
+            <character-card [character]="character"></character-card>
+          }
+        </div>
 
-@if (charactersLoading()) {
-  <div class="mb-3">Loading...</div>
-}
+        <div class="flex flex-col items-center gap-4 lg:gap-6">
+          @if (!isLastPage()) {
+            <load-more-button
+              [isLoading]="charactersLoading()"
+              (click)="handleShowMore()"
+            ></load-more-button>
+          }
 
-@if (error(); as error) {
-  <div>{{ error.error }}</div>
-}
+          <pagination
+            [page]="currentPage()"
+            [pagesCount]="pagesCount()"
+            [isDisabled]="charactersLoading()"
+            (pageChange)="handlePageChange($event)"
+          ></pagination>
+        </div>
+      </div>
+    } @else {
+      @if (charactersLoading()) {
+        <loader></loader>
+      }
 
-@if (characters(); as characters) {
-  @for (character of characters; track character.id) {
-    <character-card [character]="character"></character-card>
-  }
-}
+      @if (error() && !charactersLoading()) {
+        <error-message [errorMessage]="error()!.error"></error-message>
+      }
+    }
+  </div>
+</div>
