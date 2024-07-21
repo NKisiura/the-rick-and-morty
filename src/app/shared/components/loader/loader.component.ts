@@ -3,13 +3,13 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
-  selector: "entity-list-loader",
+  selector: "loader",
   standalone: true,
   imports: [FaIconComponent],
-  templateUrl: "./entity-list-loader.component.html",
-  styleUrl: "./entity-list-loader.component.scss",
+  templateUrl: "./loader.component.html",
+  styleUrl: "./loader.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntityListLoaderComponent {
+export class LoaderComponent {
   public loadingIcon = faCircleNotch;
 }
