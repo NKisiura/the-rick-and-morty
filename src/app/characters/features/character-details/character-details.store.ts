@@ -1,13 +1,13 @@
 import { inject, Injectable } from "@angular/core";
 import { ComponentStore } from "@ngrx/component-store";
+import { switchMap, tap } from "rxjs";
+import { tapResponse } from "@ngrx/operators";
+import { BackendErrorResponse } from "@shared/types/http";
+import { HttpErrorResponse } from "@angular/common/http";
 import { CharactersApiService } from "@characters/services";
 import { EpisodesApiService } from "@episodes/services";
 import { Character } from "@characters/types";
 import { Episode } from "@episodes/types";
-import { BackendErrorResponse } from "@shared/types/http";
-import { switchMap, tap } from "rxjs";
-import { tapResponse } from "@ngrx/operators";
-import { HttpErrorResponse } from "@angular/common/http";
 
 interface CharacterDetailsState {
   readonly characterLoading: boolean;
@@ -58,7 +58,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly getCharacterWithEpisodesById = this.effect<number>(
+  public readonly characterWithEpisodesByIdRequested = this.effect<number>(
     (characterId$) => {
       return characterId$.pipe(
         tap(() =>
@@ -68,11 +68,11 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
           this.charactersApiService.getCharacterById(characterId).pipe(
             tapResponse(
               (character) => {
-                this.getCharacterSuccess(character);
-                this.getCharacterEpisodesByIdList(character.episodeIds);
+                this.characterByIdSucceeded(character);
+                this.characterEpisodesByIdListRequested(character.episodeIds);
               },
               ({ error }: HttpErrorResponse) => {
-                this.getCharacterFailure(error);
+                this.characterByIdFailed(error);
               },
             ),
           ),
@@ -81,17 +81,17 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     },
   );
 
-  private readonly getCharacterEpisodesByIdList = this.effect<number[]>(
+  private readonly characterEpisodesByIdListRequested = this.effect<number[]>(
     (episodeIdList$) => {
       return episodeIdList$.pipe(
         switchMap((episodeIdList) =>
           this.episodesApiService.getEpisodesByIdList(episodeIdList).pipe(
             tapResponse(
               (episodes) => {
-                this.getCharacterEpisodesSuccess(episodes);
+                this.characterEpisodesSucceeded(episodes);
               },
               ({ error }: HttpErrorResponse) => {
-                this.getCharacterEpisodesFailure(error);
+                this.characterEpisodesFailed(error);
               },
             ),
           ),
@@ -102,7 +102,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly getCharacterSuccess = this.updater(
+  private readonly characterByIdSucceeded = this.updater(
     (state, character: Character): CharacterDetailsState => ({
       ...state,
       characterLoading: false,
@@ -111,7 +111,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly getCharacterFailure = this.updater(
+  private readonly characterByIdFailed = this.updater(
     (state, error: BackendErrorResponse): CharacterDetailsState => ({
       ...state,
       episodesLoading: false,
@@ -121,7 +121,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly getCharacterEpisodesSuccess = this.updater(
+  private readonly characterEpisodesSucceeded = this.updater(
     (state, episodes: Episode[]): CharacterDetailsState => ({
       ...state,
       episodesLoading: false,
@@ -130,7 +130,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly getCharacterEpisodesFailure = this.updater(
+  private readonly characterEpisodesFailed = this.updater(
     (state, error: BackendErrorResponse): CharacterDetailsState => ({
       ...state,
       episodesLoading: false,
