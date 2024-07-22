@@ -1,85 +1,98 @@
 <div class="py-4 lg:py-6">
   <div class="container">
-    @if (character(); as character) {
-      <div
-        class="flex flex-col gap-4 rounded-xl bg-light-blue/10 p-4 md:flex-row lg:gap-6 lg:p-6"
-      >
-        <img
-          [ngSrc]="character.image"
-          width="400"
-          height="400"
-          alt="character image"
-          class="max-h-[400px] w-full rounded-lg object-cover md:max-w-[300px] lg:max-w-[350px] xl:max-w-[400px]"
-        />
-        <div class="flex flex-col gap-4 md:flex-grow lg:gap-6">
-          <h1
-            class="font-primary text-3xl font-bold text-primary sm:text-4xl lg:text-5xl xl:text-6xl"
-          >
-            {{ character.name }}
-          </h1>
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
-            @if (character.status; as status) {
-              <character-property-wrapper [propertyName]="'status'">
-                {{ status }}
-              </character-property-wrapper>
-            }
-            @if (character.species; as species) {
-              <character-property-wrapper [propertyName]="'species'">
-                {{ species }}
-              </character-property-wrapper>
-            }
-            @if (character.gender; as gender) {
-              <character-property-wrapper [propertyName]="'gender'">
-                {{ gender }}
-              </character-property-wrapper>
-            }
-            @if (character.type; as type) {
-              <character-property-wrapper [propertyName]="'type'">
-                {{ type }}
-              </character-property-wrapper>
-            }
-            @if (character.episodeIds.length; as episodesAmount) {
-              <character-property-wrapper [propertyName]="'episodes amount'">
-                {{ episodesAmount }}
-                {{ episodesAmount > 1 ? "Episodes" : "Episode" }}
-              </character-property-wrapper>
-            }
-            @if (character.origin.id; as locationId) {
-              <character-property-wrapper [propertyName]="'origin location'">
-                <a
-                  [routerLink]="[APP_ROUTES.LOCATIONS, locationId]"
-                  [relativeTo]="null"
-                  class="underline decoration-blue underline-offset-2 transition-colors hover:text-blue"
-                >
-                  {{ character.origin.name }}
-                </a>
-              </character-property-wrapper>
-            }
-            @if (character.location.id; as locationId) {
-              <character-property-wrapper [propertyName]="'last location'">
-                <a
-                  [routerLink]="[APP_ROUTES.LOCATIONS, locationId]"
-                  [relativeTo]="null"
-                  class="underline decoration-blue underline-offset-2 transition-colors hover:text-blue"
-                >
-                  {{ character.location.name }}
-                </a>
-              </character-property-wrapper>
-            }
+    <div class="flex flex-col gap-4 lg:gap-6">
+      @if (characterLoading()) {
+        <loader></loader>
+      }
+
+      @if (!characterLoading()) {
+        <button
+          type="button"
+          class="relative inline-flex gap-2 self-start font-primary text-lg text-accent before:absolute before:bottom-0 before:h-0.5 before:w-0 before:rounded-xl before:bg-accent before:transition-[width] before:content-[''] before:hover:w-full md:text-lg lg:text-xl"
+          (click)="goBackToCharactersPage()"
+        >
+          <fa-icon [icon]="backToCharactersIcon"></fa-icon>
+          Back To All Characters
+        </button>
+      }
+
+      @if (character(); as character) {
+        <div
+          class="flex flex-col gap-4 rounded-xl bg-light-blue/10 p-4 md:flex-row lg:gap-6 lg:p-6"
+        >
+          <img
+            [ngSrc]="character.image"
+            width="400"
+            height="400"
+            alt="character image"
+            class="max-h-[400px] w-full rounded-lg object-cover md:max-w-[300px] lg:max-w-[350px] xl:max-w-[400px]"
+          />
+          <div class="flex flex-col gap-4 md:flex-grow lg:gap-6">
+            <h1
+              class="font-primary text-3xl font-bold text-primary sm:text-4xl lg:text-5xl xl:text-6xl"
+            >
+              {{ character.name }}
+            </h1>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+              @if (character.status; as status) {
+                <character-property-wrapper [propertyName]="'status'">
+                  {{ status }}
+                </character-property-wrapper>
+              }
+              @if (character.species; as species) {
+                <character-property-wrapper [propertyName]="'species'">
+                  {{ species }}
+                </character-property-wrapper>
+              }
+              @if (character.gender; as gender) {
+                <character-property-wrapper [propertyName]="'gender'">
+                  {{ gender }}
+                </character-property-wrapper>
+              }
+              @if (character.type; as type) {
+                <character-property-wrapper [propertyName]="'type'">
+                  {{ type }}
+                </character-property-wrapper>
+              }
+              @if (character.episodeIds.length; as episodesAmount) {
+                <character-property-wrapper [propertyName]="'episodes amount'">
+                  {{ episodesAmount }}
+                  {{ episodesAmount > 1 ? "Episodes" : "Episode" }}
+                </character-property-wrapper>
+              }
+              @if (character.origin.id; as locationId) {
+                <character-property-wrapper [propertyName]="'origin location'">
+                  <a
+                    [routerLink]="[APP_ROUTES.LOCATIONS, locationId]"
+                    [relativeTo]="null"
+                    class="underline decoration-blue underline-offset-2 transition-colors hover:text-blue"
+                  >
+                    {{ character.origin.name }}
+                  </a>
+                </character-property-wrapper>
+              }
+              @if (character.location.id; as locationId) {
+                <character-property-wrapper [propertyName]="'last location'">
+                  <a
+                    [routerLink]="[APP_ROUTES.LOCATIONS, locationId]"
+                    [relativeTo]="null"
+                    class="underline decoration-blue underline-offset-2 transition-colors hover:text-blue"
+                  >
+                    {{ character.location.name }}
+                  </a>
+                </character-property-wrapper>
+              }
+            </div>
           </div>
         </div>
-      </div>
-    }
+      }
+
+      @if (characterError() && !characterLoading()) {
+        <error-message [errorMessage]="characterError()!.error"></error-message>
+      }
+    </div>
   </div>
 </div>
-
-@if (characterLoading()) {
-  <div>Loading...</div>
-}
-
-@if (characterError(); as error) {
-  <div>{{ error.error }}</div>
-}
 
 @if (characterEpisodesLoading()) {
   <div>Episodes Loading...</div>
