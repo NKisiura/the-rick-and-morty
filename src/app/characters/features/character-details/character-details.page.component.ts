@@ -13,6 +13,7 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
 import { CharacterPropertyWrapperComponent } from "@characters/ui";
+import { EpisodeCardComponent } from "@episodes/ui";
 
 @Component({
   selector: "app-character-details",
@@ -24,6 +25,7 @@ import { CharacterPropertyWrapperComponent } from "@characters/ui";
     LoaderComponent,
     ErrorMessageComponent,
     CharacterPropertyWrapperComponent,
+    EpisodeCardComponent,
   ],
   providers: [CharacterDetailsStore],
   templateUrl: "./character-details.page.component.html",
