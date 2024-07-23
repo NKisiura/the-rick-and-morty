@@ -118,8 +118,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
             .getCharactersByFilter(charactersFilter)
             .pipe(
               tapResponse(
-                (paginatedCharactersList) => {
-                  this.charactersByFilterSucceeded(paginatedCharactersList);
+                (paginatedCharacterList) => {
+                  this.charactersByFilterSucceeded(paginatedCharacterList);
                 },
                 ({ error }: HttpErrorResponse) => {
                   this.charactersByFilterFailed(error);
@@ -131,7 +131,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     },
   );
 
-  public nextPageRequested = this.effect<void>((trigger$) => {
+  public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
         const currentPage = this.state().filter.page || 1;
@@ -148,8 +148,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
       switchMap((filter) => {
         return this.charactersApiService.getCharactersByFilter(filter).pipe(
           tapResponse(
-            (paginatedCharactersList) => {
-              this.nextPageSucceeded(paginatedCharactersList);
+            (paginatedCharacterList) => {
+              this.nextPageSucceeded(paginatedCharacterList);
             },
             ({ error }: HttpErrorResponse) => {
               this.nextPageFailed(error);

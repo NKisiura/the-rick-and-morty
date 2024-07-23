@@ -7,11 +7,13 @@ import {
   PaginationInfo,
 } from "@shared/types/http";
 import { EpisodesApiService } from "@episodes/services";
-import { switchMap, tap } from "rxjs";
+import { debounceTime, map, switchMap, tap } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ActivatedRoute, Router } from "@angular/router";
 
 interface EpisodeListState {
+  readonly initialFilter: EpisodesFilter;
   readonly filter: EpisodesFilter;
   readonly isLoading: boolean;
   readonly episodes: Episode[] | null;
@@ -20,6 +22,7 @@ interface EpisodeListState {
 }
 
 const initialState: EpisodeListState = {
+  initialFilter: {},
   filter: {},
   isLoading: false,
   episodes: null,
@@ -30,9 +33,23 @@ const initialState: EpisodeListState = {
 @Injectable()
 export class EpisodeListStore extends ComponentStore<EpisodeListState> {
   private readonly episodesApiService = inject(EpisodesApiService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   constructor() {
     super(initialState);
+    this.pathStateWithInitialFilterFromQueryParams();
+  }
+
+  private pathStateWithInitialFilterFromQueryParams(): void {
+    const { page, ...params } = this.activatedRoute.snapshot.queryParams;
+    const initialFilter: EpisodesFilter = { page: +page || 1, ...params };
+
+    this.patchState({ initialFilter });
+  }
+
+  private applyFilterToQueryParams(filter: EpisodesFilter): void {
+    this.router.navigate([], { queryParams: filter });
   }
 
   // ------------------------- SELECTORS -------------------------
@@ -41,9 +58,16 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
   public readonly episodesLoading = this.selectSignal(
     ({ isLoading }) => isLoading,
   );
+  public readonly hasLoadedEpisodes = this.selectSignal(({ episodes }) =>
+    Boolean(episodes),
+  );
   public readonly error = this.selectSignal(({ error }) => error);
 
+  public readonly initialFilter = this.selectSignal(
+    ({ initialFilter }) => initialFilter,
+  );
   public readonly episodesFilter = this.selectSignal(({ filter }) => filter);
+
   public readonly currentPage = this.selectSignal(
     this.episodesFilter,
     ({ page }) => page || 1,
@@ -51,32 +75,92 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
   public readonly pagesCount = this.selectSignal(
     ({ paginationInfo }) => paginationInfo?.pages || 1,
   );
+  public readonly isLastPage = this.selectSignal(
+    this.pagesCount,
+    this.currentPage,
+    (pagesCount, currentPage) => pagesCount === currentPage,
+  );
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly getEpisodesByFilter = this.effect<EpisodesFilter>(
+  public readonly filterUpdated = this.effect<EpisodesFilter>(
     (episodesFilter$) => {
       return episodesFilter$.pipe(
-        tap(() => this.patchState({ isLoading: true })),
-        switchMap((episodesFilter) =>
-          this.episodesApiService.getEpisodesByFilter(episodesFilter).pipe(
-            tapResponse(
-              (paginatedEpisodeList) => {
-                this.getEpisodesSuccess(paginatedEpisodeList);
-              },
-              ({ error }: HttpErrorResponse) => {
-                this.getEpisodesFailure(error);
-              },
-            ),
-          ),
-        ),
+        debounceTime(300),
+        tap((filter) => {
+          this.patchState({ filter, episodes: null });
+          this.applyFilterToQueryParams(filter);
+          this.episodesByFilterRequested(filter);
+        }),
       );
     },
   );
 
+  public readonly pageChanged = this.effect<number>((pageNumber$) => {
+    return pageNumber$.pipe(
+      tap((page) => {
+        const filter: EpisodesFilter = { ...this.state().filter, page };
+        this.patchState({ filter, episodes: null });
+        this.applyFilterToQueryParams(filter);
+        this.episodesByFilterRequested(filter);
+      }),
+    );
+  });
+
+  private readonly episodesByFilterRequested = this.effect<EpisodesFilter>(
+    (episodesFilter$) => {
+      return episodesFilter$.pipe(
+        tap(() => this.patchState({ isLoading: true })),
+        switchMap((episodesFilter) => {
+          return this.episodesApiService
+            .getEpisodesByFilter(episodesFilter)
+            .pipe(
+              tapResponse(
+                (paginatedEpisodeList) => {
+                  this.episodesByFilterSucceeded(paginatedEpisodeList);
+                },
+                ({ error }: HttpErrorResponse) => {
+                  this.episodesByFilterFailed(error);
+                },
+              ),
+            );
+        }),
+      );
+    },
+  );
+
+  public readonly nextPageRequested = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      map(() => {
+        const currentPage = this.state().filter.page || 1;
+        const filter: EpisodesFilter = {
+          ...this.state().filter,
+          page: currentPage + 1,
+        };
+        return filter;
+      }),
+      tap((filter) => {
+        this.patchState({ filter, isLoading: true });
+        this.applyFilterToQueryParams(filter);
+      }),
+      switchMap((filter) => {
+        return this.episodesApiService.getEpisodesByFilter(filter).pipe(
+          tapResponse(
+            (paginateEpisodeList) => {
+              this.nextPageSucceeded(paginateEpisodeList);
+            },
+            ({ error }: HttpErrorResponse) => {
+              this.nextPageFailed(error);
+            },
+          ),
+        );
+      }),
+    );
+  });
+
   // ------------------------- UPDATERS -------------------------
 
-  private readonly getEpisodesSuccess = this.updater(
+  private readonly episodesByFilterSucceeded = this.updater(
     (
       state,
       { info, results }: PaginatedResponseDTO<Episode>,
@@ -89,20 +173,34 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
     }),
   );
 
-  private readonly getEpisodesFailure = this.updater(
+  private readonly episodesByFilterFailed = this.updater(
     (state, error: BackendErrorResponse): EpisodeListState => ({
       ...state,
       isLoading: false,
       episodes: null,
       paginationInfo: null,
-      error: error,
+      error,
     }),
   );
 
-  public readonly setFilter = this.updater(
-    (state, filter: EpisodesFilter): EpisodeListState => ({
+  private readonly nextPageSucceeded = this.updater(
+    (
+      state,
+      { info, results }: PaginatedResponseDTO<Episode>,
+    ): EpisodeListState => ({
       ...state,
-      filter: { ...filter },
+      isLoading: false,
+      episodes: [...(state.episodes || []), ...results],
+      paginationInfo: info,
+      error: null,
+    }),
+  );
+
+  private readonly nextPageFailed = this.updater(
+    (state, error: BackendErrorResponse): EpisodeListState => ({
+      ...state,
+      isLoading: false,
+      error,
     }),
   );
 }

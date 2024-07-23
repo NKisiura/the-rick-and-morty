@@ -8,7 +8,7 @@ import {
 import { EpisodeDetailsStore } from "@episodes/features/episode-details/episode-details.store";
 
 @Component({
-  selector: "app-episode-details.page",
+  selector: "app-episode-details",
   standalone: true,
   imports: [],
   providers: [EpisodeDetailsStore],
