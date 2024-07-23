@@ -5,14 +5,14 @@ import {
   OnInit,
   output,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { values } from "lodash";
 import {
   CharactersFilter,
   CharacterStatus,
   CharacterGender,
 } from "@characters/types";
-import { values } from "lodash";
-import { FormsModule } from "@angular/forms";
-import { NgSelectModule } from "@ng-select/ng-select";
 
 @Component({
   selector: "characters-filter",

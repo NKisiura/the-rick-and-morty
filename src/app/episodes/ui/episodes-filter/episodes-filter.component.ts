@@ -1,42 +1,40 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  input,
+  OnInit,
   output,
-  signal,
 } from "@angular/core";
-import { EpisodesFilter } from "@episodes/types";
-import { debounce } from "lodash";
 import { FormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { EpisodesFilter } from "@episodes/types";
 
 @Component({
   selector: "episodes-filter",
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgSelectModule],
   templateUrl: "./episodes-filter.component.html",
   styleUrl: "./episodes-filter.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EpisodesFilterComponent {
-  public seasons = signal(["S01", "S02", "S03", "S04", "S05"]).asReadonly();
+export class EpisodesFilterComponent implements OnInit {
+  public seasons = ["S01", "S02", "S03", "S04", "S05"];
 
-  @Input({ required: true }) public filter: EpisodesFilter = {};
-  @Input() public isDisabled = false;
-
+  public initialFilter = input<EpisodesFilter>({});
   public filterChange = output<EpisodesFilter>();
 
-  public handleFilterChange(prop: keyof EpisodesFilter, value: unknown): void {
-    this.filterChange.emit({ ...this.filter, [prop]: value || null });
+  public filter: EpisodesFilter = {};
+
+  ngOnInit(): void {
+    this.filter = this.initialFilter();
   }
 
-  public handleFilterChangeWithDebounce = debounce(
-    (prop: keyof EpisodesFilter, value: unknown) => {
-      this.handleFilterChange(prop, value);
-    },
-    300,
-  );
+  public handleFilterChange(): void {
+    this.filterChange.emit({ ...this.filter });
+  }
 
   public clearFilter(): void {
-    this.filterChange.emit({});
+    this.filter = {};
+    this.handleFilterChange();
   }
 }
