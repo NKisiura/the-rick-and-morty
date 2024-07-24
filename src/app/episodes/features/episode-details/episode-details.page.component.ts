@@ -5,12 +5,20 @@ import {
   input,
   OnInit,
 } from "@angular/core";
+import { DatePipe } from "@angular/common";
 import { EpisodeDetailsStore } from "@episodes/features/episode-details/episode-details.store";
+import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import { CharacterCardComponent } from "@characters/ui";
 
 @Component({
   selector: "app-episode-details",
   standalone: true,
-  imports: [],
+  imports: [
+    DatePipe,
+    LoaderComponent,
+    ErrorMessageComponent,
+    CharacterCardComponent,
+  ],
   providers: [EpisodeDetailsStore],
   templateUrl: "./episode-details.page.component.html",
   styleUrl: "./episode-details.page.component.scss",
@@ -18,6 +26,8 @@ import { EpisodeDetailsStore } from "@episodes/features/episode-details/episode-
 })
 export class EpisodeDetailsPageComponent implements OnInit {
   private readonly episodeDetailsStore = inject(EpisodeDetailsStore);
+
+  public dateFormat = "MMMM d, y";
 
   public episodeId = input.required<number, string | number>({
     transform: (value: string | number) => +value,
@@ -32,6 +42,8 @@ export class EpisodeDetailsPageComponent implements OnInit {
   public episodeCharactersError = this.episodeDetailsStore.charactersError;
 
   ngOnInit(): void {
-    this.episodeDetailsStore.getEpisodeWithCharactersById(this.episodeId());
+    this.episodeDetailsStore.episodeWithCharactersByIdRequested(
+      this.episodeId(),
+    );
   }
 }

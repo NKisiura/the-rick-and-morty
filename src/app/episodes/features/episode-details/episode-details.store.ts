@@ -60,7 +60,7 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly getEpisodeWithCharactersById = this.effect<number>(
+  public readonly episodeWithCharactersByIdRequested = this.effect<number>(
     (episodeId$) => {
       return episodeId$.pipe(
         tap(() =>
@@ -70,11 +70,11 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
           this.episodesApiService.getEpisodeById(episodeId).pipe(
             tapResponse(
               (episode) => {
-                this.getEpisodeSuccess(episode);
-                this.getEpisodeCharactersByIdList(episode.characterIds);
+                this.episodeByIdSucceeded(episode);
+                this.episodeCharactersByIdListRequested(episode.characterIds);
               },
               ({ error }: HttpErrorResponse) => {
-                this.getEpisodeFailure(error);
+                this.episodeByIdFailed(error);
               },
             ),
           ),
@@ -83,17 +83,17 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     },
   );
 
-  private readonly getEpisodeCharactersByIdList = this.effect<number[]>(
+  private readonly episodeCharactersByIdListRequested = this.effect<number[]>(
     (characterIdList$) => {
       return characterIdList$.pipe(
         switchMap((characterIdList) =>
           this.charactersApiService.getCharactersByIdList(characterIdList).pipe(
             tapResponse(
               (characters) => {
-                this.getEpisodeCharactersSuccess(characters);
+                this.episodeCharactersSucceeded(characters);
               },
               ({ error }: HttpErrorResponse) => {
-                this.getEpisodeCharactersFailure(error);
+                this.episodeCharactersFailed(error);
               },
             ),
           ),
@@ -104,7 +104,7 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly getEpisodeSuccess = this.updater(
+  private readonly episodeByIdSucceeded = this.updater(
     (state, episode: Episode): EpisodeDetailsState => ({
       ...state,
       episodeLoading: false,
@@ -113,7 +113,7 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly getEpisodeFailure = this.updater(
+  private readonly episodeByIdFailed = this.updater(
     (state, error: BackendErrorResponse): EpisodeDetailsState => ({
       ...state,
       episodeLoading: false,
@@ -123,7 +123,7 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly getEpisodeCharactersSuccess = this.updater(
+  private readonly episodeCharactersSucceeded = this.updater(
     (state, characters: Character[]): EpisodeDetailsState => ({
       ...state,
       charactersLoading: false,
@@ -132,7 +132,7 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly getEpisodeCharactersFailure = this.updater(
+  private readonly episodeCharactersFailed = this.updater(
     (state, error: BackendErrorResponse): EpisodeDetailsState => ({
       ...state,
       charactersLoading: false,
