@@ -6,17 +6,6 @@
           <loader></loader>
         }
 
-        @if (!characterLoading()) {
-          <button
-            type="button"
-            class="relative inline-flex gap-2 self-start font-primary text-lg text-accent before:absolute before:bottom-0 before:h-0.5 before:w-0 before:rounded-xl before:bg-accent before:transition-[width] before:content-[''] before:hover:w-full md:text-lg"
-            (click)="goBackToCharactersPage()"
-          >
-            <fa-icon [icon]="backToCharactersIcon"></fa-icon>
-            Back To All Characters
-          </button>
-        }
-
         @if (character(); as character) {
           <div
             class="flex flex-col gap-4 rounded-xl bg-light-blue/10 p-4 md:flex-row lg:gap-6 lg:p-6"
