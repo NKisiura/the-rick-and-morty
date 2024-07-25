@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { Location } from "@locations/types";
+import { APP_ROUTES } from "@shared/constants";
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -11,5 +12,7 @@ import { RouterLink } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationCardComponent {
+  public APP_ROUTES = APP_ROUTES;
+
   public location = input.required<Location>();
 }
