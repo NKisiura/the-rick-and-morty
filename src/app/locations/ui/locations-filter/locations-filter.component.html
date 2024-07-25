@@ -1,33 +1,32 @@
-<div class="mb-3 flex gap-3">
-  <label>
-    Name
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.name"
-      (input)="handleFilterChangeWithDebounce('name', filter.name)"
-    />
-  </label>
-  <label>
-    Type
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.type"
-      (input)="handleFilterChangeWithDebounce('type', filter.type)"
-    />
-  </label>
-  <label>
-    Dimension
-    <input
-      type="text"
-      class="border"
-      [disabled]="isDisabled"
-      [(ngModel)]="filter.dimension"
-      (input)="handleFilterChangeWithDebounce('dimension', filter.dimension)"
-    />
-  </label>
-  <button type="button" (click)="clearFilter()">Clear</button>
+<div
+  class="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+>
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Name"
+    [(ngModel)]="filter.name"
+    (input)="handleFilterChange()"
+  />
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Type"
+    [(ngModel)]="filter.type"
+    (input)="handleFilterChange()"
+  />
+  <input
+    type="text"
+    class="rounded-lg border border-blue bg-dark-blue px-4 py-1.5 font-primary text-accent outline-0 transition-colors placeholder:font-light placeholder:text-blue focus:border-accent"
+    placeholder="Dimension"
+    [(ngModel)]="filter.dimension"
+    (input)="handleFilterChange()"
+  />
+  <button
+    type="button"
+    class="rounded-lg border border-accent bg-dark-blue font-primary font-medium text-accent transition-colors hover:bg-accent hover:text-dark-blue lg:!col-span-1"
+    (click)="clearFilter()"
+  >
+    Clear
+  </button>
 </div>

@@ -1,39 +1,37 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  input,
+  OnInit,
   output,
 } from "@angular/core";
 import { LocationsFilter } from "@locations/types";
-import { debounce } from "lodash";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "locations-filter",
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: "./locations-filter.component.html",
   styleUrl: "./locations-filter.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationsFilterComponent {
-  @Input({ required: true }) public filter: LocationsFilter = {};
-  @Input() public isDisabled = false;
-
+export class LocationsFilterComponent implements OnInit {
+  public initialFilter = input<LocationsFilter>({});
   public filterChange = output<LocationsFilter>();
 
-  public handleFilterChange(prop: keyof LocationsFilter, value: unknown): void {
-    this.filterChange.emit({ ...this.filter, [prop]: value || null });
+  public filter: LocationsFilter = {};
+
+  ngOnInit(): void {
+    this.filter = this.initialFilter();
   }
 
-  public handleFilterChangeWithDebounce = debounce(
-    (prop: keyof LocationsFilter, value: unknown) => {
-      this.handleFilterChange(prop, value);
-    },
-    300,
-  );
+  public handleFilterChange(): void {
+    this.filterChange.emit({ ...this.filter });
+  }
 
   public clearFilter(): void {
-    this.filterChange.emit({});
+    this.filter = {};
+    this.handleFilterChange();
   }
 }
