@@ -1,8 +1,8 @@
 <div
   class="flex h-full flex-col items-center overflow-hidden rounded-xl bg-blue/10 font-primary text-primary"
 >
-  <div class="w-full bg-blue/65 px-4 py-3 text-center">
-    {{ location().type }}
+  <div class="w-full bg-blue/65 px-4 py-3 text-center capitalize">
+    {{ location().type || "unknown" }}
   </div>
   <div class="flex justify-center px-4 py-3">
     <a
