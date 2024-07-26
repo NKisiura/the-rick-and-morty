@@ -83,7 +83,18 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly filterUpdated = this.effect<EpisodesFilter>(
+  public readonly initialEpisodesRequested = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      map(() => this.initialFilter()),
+      tap((filter) => {
+        this.patchState({ filter });
+        this.applyFilterToQueryParams(filter);
+        this.episodesByFilterRequested(filter);
+      }),
+    );
+  });
+
+  public readonly filterChanged = this.effect<EpisodesFilter>(
     (episodesFilter$) => {
       return episodesFilter$.pipe(
         debounceTime(300),
@@ -99,7 +110,7 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
 
   public readonly pageChanged = this.effect<number>((pageNumber$) => {
     return pageNumber$.pipe(
-      map((page) => ({ ...this.state().filter, page }) as EpisodesFilter),
+      map((page) => ({ ...this.episodesFilter(), page }) as EpisodesFilter),
       tap((filter) => {
         this.patchState({ filter, episodes: null });
         this.applyFilterToQueryParams(filter);
@@ -133,7 +144,7 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
   public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
-        const { page, ...filterProps } = this.state().filter;
+        const { page, ...filterProps } = this.episodesFilter();
         return {
           ...filterProps,
           page: (page || 1) + 1,

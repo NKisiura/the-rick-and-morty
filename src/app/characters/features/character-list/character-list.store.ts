@@ -85,7 +85,18 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly filterUpdated = this.effect<CharactersFilter>(
+  public readonly initialCharactersRequested = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      map(() => this.initialFilter()),
+      tap((filter) => {
+        this.patchState({ filter });
+        this.applyFilterToQueryParams(filter);
+        this.charactersByFilterRequested(filter);
+      }),
+    );
+  });
+
+  public readonly filterChanged = this.effect<CharactersFilter>(
     (charactersFilter$) => {
       return charactersFilter$.pipe(
         debounceTime(300),
@@ -101,7 +112,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   public readonly pageChanged = this.effect<number>((pageNumber$) => {
     return pageNumber$.pipe(
-      map((page) => ({ ...this.state().filter, page }) as CharactersFilter),
+      map((page) => ({ ...this.charactersFilter(), page }) as CharactersFilter),
       tap((filter) => {
         this.patchState({ filter, characters: null });
         this.applyFilterToQueryParams(filter);
@@ -135,7 +146,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
   public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
-        const { page, ...filterProps } = this.state().filter;
+        const { page, ...filterProps } = this.charactersFilter();
         return {
           ...filterProps,
           page: (page || 1) + 1,

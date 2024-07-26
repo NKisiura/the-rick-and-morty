@@ -48,7 +48,7 @@ export class CharacterListPageComponent implements OnInit {
   public isLastPage = this.characterListStore.isLastPage;
 
   ngOnInit(): void {
-    this.handleFilterChange(this.initialFilter());
+    this.characterListStore.initialCharactersRequested();
   }
 
   public handleShowMore(): void {
@@ -60,6 +60,6 @@ export class CharacterListPageComponent implements OnInit {
   }
 
   public handleFilterChange(filter: CharactersFilter): void {
-    this.characterListStore.filterUpdated(filter);
+    this.characterListStore.filterChanged(filter);
   }
 }

@@ -83,7 +83,18 @@ export class LocationListStore extends ComponentStore<LocationListState> {
 
   // ------------------------- EFFECTS -------------------------
 
-  public readonly filterUpdated = this.effect<LocationsFilter>(
+  public readonly initialLocationsRequested = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      map(() => this.initialFilter()),
+      tap((filter) => {
+        this.patchState({ filter });
+        this.applyFilterToQueryParams(filter);
+        this.locationByFilterRequested(filter);
+      }),
+    );
+  });
+
+  public readonly filterChanged = this.effect<LocationsFilter>(
     (locationsFilter$) => {
       return locationsFilter$.pipe(
         debounceTime(300),
@@ -99,7 +110,7 @@ export class LocationListStore extends ComponentStore<LocationListState> {
 
   public readonly pageChanged = this.effect<number>((pageNumber$) => {
     return pageNumber$.pipe(
-      map((page) => ({ ...this.state().filter, page }) as LocationsFilter),
+      map((page) => ({ ...this.locationsFilter(), page }) as LocationsFilter),
       tap((filter) => {
         this.patchState({ filter, locations: null });
         this.applyFilterToQueryParams(filter);
@@ -131,7 +142,7 @@ export class LocationListStore extends ComponentStore<LocationListState> {
   public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
-        const { page, ...filterProps } = this.state().filter;
+        const { page, ...filterProps } = this.locationsFilter();
         return {
           ...filterProps,
           page: (page || 1) + 1,

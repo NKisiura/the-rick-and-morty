@@ -45,7 +45,7 @@ export class EpisodeListPageComponent implements OnInit {
   public isLastPage = this.episodesListStore.isLastPage;
 
   ngOnInit(): void {
-    this.handleFilterChange(this.initialFilter());
+    this.episodesListStore.initialEpisodesRequested();
   }
 
   public handleShowMore(): void {
@@ -57,6 +57,6 @@ export class EpisodeListPageComponent implements OnInit {
   }
 
   public handleFilterChange(filter: EpisodesFilter): void {
-    this.episodesListStore.filterUpdated(filter);
+    this.episodesListStore.filterChanged(filter);
   }
 }

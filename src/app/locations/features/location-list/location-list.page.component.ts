@@ -45,7 +45,7 @@ export class LocationListPageComponent implements OnInit {
   public isLastPage = this.locationListStore.isLastPage;
 
   ngOnInit(): void {
-    this.handleFilterChange(this.initialFilter());
+    this.locationListStore.initialLocationsRequested();
   }
 
   public handleShowMore(): void {
@@ -57,6 +57,6 @@ export class LocationListPageComponent implements OnInit {
   }
 
   public handleFilterChange(filter: LocationsFilter): void {
-    this.locationListStore.filterUpdated(filter);
+    this.locationListStore.filterChanged(filter);
   }
 }
