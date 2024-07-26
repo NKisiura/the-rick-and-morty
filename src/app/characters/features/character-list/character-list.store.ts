@@ -89,6 +89,7 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     (charactersFilter$) => {
       return charactersFilter$.pipe(
         debounceTime(300),
+        map((filter) => ({ ...filter, page: 1 }) as CharactersFilter),
         tap((filter) => {
           this.patchState({ filter, characters: null });
           this.applyFilterToQueryParams(filter);
@@ -100,8 +101,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   public readonly pageChanged = this.effect<number>((pageNumber$) => {
     return pageNumber$.pipe(
-      tap((page) => {
-        const filter: CharactersFilter = { ...this.state().filter, page };
+      map((page) => ({ ...this.state().filter, page }) as CharactersFilter),
+      tap((filter) => {
         this.patchState({ filter, characters: null });
         this.applyFilterToQueryParams(filter);
         this.charactersByFilterRequested(filter);
@@ -134,12 +135,11 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
   public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
-        const currentPage = this.state().filter.page || 1;
-        const filter: CharactersFilter = {
-          ...this.state().filter,
-          page: currentPage + 1,
-        };
-        return filter;
+        const { page, ...filterProps } = this.state().filter;
+        return {
+          ...filterProps,
+          page: (page || 1) + 1,
+        } as CharactersFilter;
       }),
       tap((filter) => {
         this.patchState({ filter, isLoading: true });

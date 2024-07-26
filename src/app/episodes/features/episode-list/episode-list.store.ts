@@ -87,6 +87,7 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
     (episodesFilter$) => {
       return episodesFilter$.pipe(
         debounceTime(300),
+        map((filter) => ({ ...filter, page: 1 }) as EpisodesFilter),
         tap((filter) => {
           this.patchState({ filter, episodes: null });
           this.applyFilterToQueryParams(filter);
@@ -98,8 +99,8 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
 
   public readonly pageChanged = this.effect<number>((pageNumber$) => {
     return pageNumber$.pipe(
-      tap((page) => {
-        const filter: EpisodesFilter = { ...this.state().filter, page };
+      map((page) => ({ ...this.state().filter, page }) as EpisodesFilter),
+      tap((filter) => {
         this.patchState({ filter, episodes: null });
         this.applyFilterToQueryParams(filter);
         this.episodesByFilterRequested(filter);
@@ -132,12 +133,11 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
   public readonly nextPageRequested = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       map(() => {
-        const currentPage = this.state().filter.page || 1;
-        const filter: EpisodesFilter = {
-          ...this.state().filter,
-          page: currentPage + 1,
-        };
-        return filter;
+        const { page, ...filterProps } = this.state().filter;
+        return {
+          ...filterProps,
+          page: (page || 1) + 1,
+        } as EpisodesFilter;
       }),
       tap((filter) => {
         this.patchState({ filter, isLoading: true });
