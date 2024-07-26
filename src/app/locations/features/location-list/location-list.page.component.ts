@@ -5,10 +5,14 @@ import {
   OnInit,
 } from "@angular/core";
 import { LocationListStore } from "@locations/features/location-list/location-list.store";
-import { ActivatedRoute, Router } from "@angular/router";
 import { LocationCardComponent, LocationsFilterComponent } from "@locations/ui";
 import { LocationsFilter } from "@locations/types";
-import { PaginationComponent } from "@shared/components";
+import {
+  ErrorMessageComponent,
+  LoaderComponent,
+  LoadMoreButtonComponent,
+  PaginationComponent,
+} from "@shared/components";
 
 @Component({
   selector: "app-location-list",
@@ -17,6 +21,9 @@ import { PaginationComponent } from "@shared/components";
     LocationCardComponent,
     LocationsFilterComponent,
     PaginationComponent,
+    LoadMoreButtonComponent,
+    ErrorMessageComponent,
+    LoaderComponent,
   ],
   providers: [LocationListStore],
   templateUrl: "./location-list.page.component.html",
@@ -25,37 +32,31 @@ import { PaginationComponent } from "@shared/components";
 })
 export class LocationListPageComponent implements OnInit {
   private readonly locationListStore = inject(LocationListStore);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
 
   public locations = this.locationListStore.locations;
   public locationsLoading = this.locationListStore.locationsLoading;
+  public hasLoadedLocations = this.locationListStore.hasLoadedLocations;
   public error = this.locationListStore.error;
 
-  public locationsFilter = this.locationListStore.locationsFilter;
+  public initialFilter = this.locationListStore.initialFilter;
+
   public currentPage = this.locationListStore.currentPage;
   public pagesCount = this.locationListStore.pagesCount;
+  public isLastPage = this.locationListStore.isLastPage;
 
   ngOnInit(): void {
-    this.initLocations();
+    this.handleFilterChange(this.initialFilter());
   }
 
-  private initLocations(): void {
-    const { page, ...params } = this.activatedRoute.snapshot.queryParams;
-    this.updateCharacters({ ...params, page: +page || 1 });
+  public handleShowMore(): void {
+    this.locationListStore.nextPageRequested();
   }
 
   public handlePageChange(pageNumber: number): void {
-    this.updateCharacters({ ...this.locationsFilter(), page: pageNumber });
+    this.locationListStore.pageChanged(pageNumber);
   }
 
   public handleFilterChange(filter: LocationsFilter): void {
-    this.updateCharacters({ ...filter, page: 1 });
-  }
-
-  private updateCharacters(filter: LocationsFilter): void {
-    this.locationListStore.setFilter(filter);
-    this.locationListStore.getLocationByFilter(this.locationsFilter());
-    this.router.navigate([], { queryParams: this.locationsFilter() });
+    this.locationListStore.filterUpdated(filter);
   }
 }

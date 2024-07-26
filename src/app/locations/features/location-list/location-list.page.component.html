@@ -1,26 +1,52 @@
-<locations-filter
-  [filter]="locationsFilter()"
-  [isDisabled]="locationsLoading()"
-  (filterChange)="handleFilterChange($event)"
-></locations-filter>
+<div class="pb-4 lg:pb-6">
+  <div
+    class="sticky top-header-height bg-app-background bg-app-background-pattern pb-4 pt-2 lg:pb-6"
+  >
+    <div class="container">
+      <div class="rounded-xl bg-light-blue/10 p-4">
+        <locations-filter
+          [initialFilter]="initialFilter()"
+          (filterChange)="handleFilterChange($event)"
+        ></locations-filter>
+      </div>
+    </div>
+  </div>
 
-<pagination
-  [page]="currentPage()"
-  [pagesCount]="pagesCount()"
-  [isDisabled]="locationsLoading()"
-  (pageChange)="handlePageChange($event)"
-></pagination>
+  <div class="container">
+    @if (hasLoadedLocations()) {
+      <div class="flex flex-col gap-4 lg:gap-6">
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 2xl:grid-cols-4"
+        >
+          @for (location of locations(); track location.id) {
+            <location-card [location]="location"></location-card>
+          }
+        </div>
 
-@if (locationsLoading()) {
-  <div class="mb-3">Loading...</div>
-}
+        <div class="flex flex-col items-center gap-4 lg:gap-6">
+          @if (!isLastPage()) {
+            <load-more-button
+              [isLoading]="locationsLoading()"
+              (click)="handleShowMore()"
+            ></load-more-button>
+          }
 
-@if (error(); as error) {
-  <div>{{ error.error }}</div>
-}
+          <pagination
+            [page]="currentPage()"
+            [pagesCount]="pagesCount()"
+            [isDisabled]="locationsLoading()"
+            (pageChange)="handlePageChange($event)"
+          ></pagination>
+        </div>
+      </div>
+    } @else {
+      @if (locationsLoading()) {
+        <loader></loader>
+      }
 
-@if (locations(); as locations) {
-  @for (location of locations; track location.id) {
-    <location-card [location]="location"></location-card>
-  }
-}
+      @if (error() && !locationsLoading()) {
+        <error-message [errorMessage]="error()!.error"></error-message>
+      }
+    }
+  </div>
+</div>
