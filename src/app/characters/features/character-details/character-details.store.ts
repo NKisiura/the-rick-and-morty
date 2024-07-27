@@ -61,9 +61,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
   public readonly characterWithEpisodesByIdRequested = this.effect<number>(
     (characterId$) => {
       return characterId$.pipe(
-        tap(() =>
-          this.patchState({ characterLoading: true, episodesLoading: true }),
-        ),
+        tap(() => this.patchState({ characterLoading: true })),
         switchMap((characterId) =>
           this.charactersApiService.getCharacterById(characterId).pipe(
             tapResponse(
@@ -84,6 +82,7 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
   private readonly characterEpisodesByIdListRequested = this.effect<number[]>(
     (episodeIdList$) => {
       return episodeIdList$.pipe(
+        tap(() => this.patchState({ episodesLoading: true })),
         switchMap((episodeIdList) =>
           this.episodesApiService.getEpisodesByIdList(episodeIdList).pipe(
             tapResponse(
@@ -114,7 +113,6 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
   private readonly characterByIdFailed = this.updater(
     (state, error: BackendErrorResponse): CharacterDetailsState => ({
       ...state,
-      episodesLoading: false,
       characterLoading: false,
       character: null,
       characterError: error,
