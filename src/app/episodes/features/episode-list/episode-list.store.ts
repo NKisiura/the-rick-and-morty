@@ -157,8 +157,8 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
       switchMap((filter) => {
         return this.episodesApiService.getEpisodesByFilter(filter).pipe(
           tapResponse(
-            (paginateEpisodeList) => {
-              this.nextPageSucceeded(paginateEpisodeList);
+            (paginatedEpisodeList) => {
+              this.nextPageSucceeded(paginatedEpisodeList);
             },
             ({ error }: HttpErrorResponse) => {
               this.nextPageFailed(error);
