@@ -155,8 +155,8 @@ export class LocationListStore extends ComponentStore<LocationListState> {
       switchMap((filter) => {
         return this.locationsApiService.getLocationsByFilter(filter).pipe(
           tapResponse(
-            (paginateEpisodeList) => {
-              this.nextPageSucceeded(paginateEpisodeList);
+            (paginatedLocationList) => {
+              this.nextPageSucceeded(paginatedLocationList);
             },
             ({ error }: HttpErrorResponse) => {
               this.nextPageFailed(error);
