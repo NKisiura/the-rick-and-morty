@@ -22,6 +22,11 @@ export const routes: Routes = [
       import("./locations/locations-routes").then((m) => m.locationsRoutes),
   },
   {
+    path: APP_ROUTES.FAVOURITES,
+    loadChildren: () =>
+      import("./favourites/favourites-routes").then((m) => m.favouritesRoutes),
+  },
+  {
     path: "",
     redirectTo: APP_ROUTES.HOME,
     pathMatch: "full",

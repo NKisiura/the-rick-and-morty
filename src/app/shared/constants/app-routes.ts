@@ -3,4 +3,5 @@ export enum Routes {
   CHARACTERS = "characters",
   EPISODES = "episodes",
   LOCATIONS = "locations",
+  FAVOURITES = "favourites",
 }
