@@ -28,6 +28,7 @@
       "@characters/*": ["./src/app/characters/*"],
       "@episodes/*": ["./src/app/episodes/*"],
       "@locations/*": ["./src/app/locations/*"],
+      "@favourites/*": ["./src/app/favourites/*"],
       "@core/*": ["./src/app/core/*"],
       "@shared/*": ["./src/app/shared/*"],
     }
