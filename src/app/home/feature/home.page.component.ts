@@ -28,5 +28,10 @@ export class HomePageComponent {
       imageSrc: "assets/home-locations-card-bg.png",
       link: APP_ROUTES.LOCATIONS,
     },
+    {
+      cardName: "Favourites",
+      imageSrc: "assets/home-favourites-card-bg.png",
+      link: APP_ROUTES.FAVOURITES,
+    },
   ];
 }
