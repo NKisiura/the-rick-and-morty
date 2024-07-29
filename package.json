@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "prettier": "npx prettier --check src",
     "prettier:fix": "npx prettier --write src",
-    "prepare": "husky"
+    "prepare": "husky",
+    "deploy:gh-pages": "ng deploy --base-href=the-rick-and-morty"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "@types/lodash": "^4.17.4",
     "@typescript-eslint/eslint-plugin": "7.10.0",
     "@typescript-eslint/parser": "7.10.0",
+    "angular-cli-ghpages": "^2.0.1",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
