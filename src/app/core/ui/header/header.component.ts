@@ -4,7 +4,7 @@ import { APP_ROUTES } from "@shared/constants";
 import { NgOptimizedImage } from "@angular/common";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-header",
@@ -18,6 +18,7 @@ export class HeaderComponent {
   public githubLink = "https://github.com/NKisiura";
   public githubIcon = faGithub;
   public barsIcon = faBars;
+  public closeIcon = faTimes;
 
   public APP_ROUTES = APP_ROUTES;
   public headerLinks: APP_ROUTES[] = [
@@ -26,4 +27,10 @@ export class HeaderComponent {
     this.APP_ROUTES.LOCATIONS,
     this.APP_ROUTES.FAVOURITES,
   ];
+
+  public isMobileMenuOpen: boolean = false;
+
+  public toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 }
