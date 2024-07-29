@@ -1,0 +1,1 @@
+import"./chunk-55KE2TB7.js";var t=[{path:"",loadComponent:()=>import("./chunk-ABEM7E5T.js").then(o=>o.LocationListPageComponent)},{path:":locationId",loadComponent:()=>import("./chunk-7HL4VWBQ.js").then(o=>o.LocationDetailsPageComponent)}];export{t as locationsRoutes};
