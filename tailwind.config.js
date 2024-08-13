@@ -24,10 +24,10 @@ module.exports = {
 
       },
       backgroundImage: {
-        'app-background-pattern': "url('/assets/app-background.png')",
-        'greeting-section-background-pattern': "url('/assets/home-greeting-section-bg.png')",
-        'page-link-card-bg-pattern': "url('/assets/home-page-link-card-bg.png')",
-        'decorative-card-bg': "url('/assets/home-decorative-card-bg.png')",
+        'app-background-pattern': "url('assets/app-background.png')",
+        'greeting-section-background-pattern': "url('assets/home-greeting-section-bg.png')",
+        'page-link-card-bg-pattern': "url('assets/home-page-link-card-bg.png')",
+        'decorative-card-bg': "url('assets/home-decorative-card-bg.png')",
       },
       spacing: {
         'header-height': '75px'
