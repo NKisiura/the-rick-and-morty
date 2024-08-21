@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   input,
   OnInit,
@@ -8,6 +9,9 @@ import {
 import { LocationDetailsStore } from "@locations/features/location-details/location-details.store";
 import { CharacterCardComponent } from "@characters/ui";
 import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import { Title } from "@angular/platform-browser";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { filter } from "rxjs";
 
 @Component({
   selector: "app-location-details",
@@ -19,7 +23,9 @@ import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationDetailsPageComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly locationDetailsStore = inject(LocationDetailsStore);
+  private readonly title = inject(Title);
 
   public locationId = input.required<number, string | number>({
     transform: (value: string | number) => +value,
@@ -33,6 +39,14 @@ export class LocationDetailsPageComponent implements OnInit {
   public locationCharactersLoading =
     this.locationDetailsStore.charactersLoading;
   public locationCharactersError = this.locationDetailsStore.charactersError;
+
+  constructor() {
+    toObservable(this.location)
+      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ name }) => {
+        this.title.setTitle(`${name} - Location`);
+      });
+  }
 
   ngOnInit(): void {
     this.locationDetailsStore.locationWithCharactersByIdRequested(

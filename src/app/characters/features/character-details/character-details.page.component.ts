@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   input,
   OnInit,
@@ -12,6 +13,9 @@ import { CharacterDetailsStore } from "./character-details.store";
 import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
 import { CharacterPropertyWrapperComponent } from "@characters/ui";
 import { EpisodeCardComponent } from "@episodes/ui";
+import { Title } from "@angular/platform-browser";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { filter } from "rxjs";
 
 @Component({
   selector: "app-character-details",
@@ -30,7 +34,9 @@ import { EpisodeCardComponent } from "@episodes/ui";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterDetailsPageComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly characterDetailsStore = inject(CharacterDetailsStore);
+  private readonly title = inject(Title);
 
   public APP_ROUTES = APP_ROUTES;
 
@@ -45,6 +51,14 @@ export class CharacterDetailsPageComponent implements OnInit {
   public characterEpisodes = this.characterDetailsStore.episodes;
   public characterEpisodesLoading = this.characterDetailsStore.episodesLoading;
   public characterEpisodesError = this.characterDetailsStore.episodesError;
+
+  constructor() {
+    toObservable(this.character)
+      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ name }) => {
+        this.title.setTitle(`${name} - Character`);
+      });
+  }
 
   ngOnInit(): void {
     this.characterDetailsStore.characterWithEpisodesByIdRequested(
