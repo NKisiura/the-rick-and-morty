@@ -1,7 +1,14 @@
 @if (character(); as character) {
   <div
-    class="flex flex-col overflow-hidden rounded-xl bg-light-blue/10 sm:flex-row"
+    class="group relative flex flex-col overflow-hidden rounded-xl bg-light-blue/10 sm:flex-row"
   >
+    <entity-favourite-toggle
+      #entityFavouriteToggle
+      class="absolute left-1 top-1 hidden group-hover:block"
+      [ngClass]="{ '!block': entityFavouriteToggle.isFavourite() }"
+      [entityId]="character.id"
+      [entityType]="EntityType.CHARACTER"
+    ></entity-favourite-toggle>
     <img
       [ngSrc]="character.image"
       width="300"

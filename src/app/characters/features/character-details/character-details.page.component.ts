@@ -10,12 +10,17 @@ import { NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { APP_ROUTES } from "@shared/constants";
 import { CharacterDetailsStore } from "./character-details.store";
-import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import {
+  EntityFavouriteToggleComponent,
+  ErrorMessageComponent,
+  LoaderComponent,
+} from "@shared/components";
 import { CharacterPropertyWrapperComponent } from "@characters/ui";
 import { EpisodeCardComponent } from "@episodes/ui";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
+import { EntityType } from "@shared/types/entity";
 
 @Component({
   selector: "app-character-details",
@@ -27,6 +32,7 @@ import { filter } from "rxjs";
     ErrorMessageComponent,
     CharacterPropertyWrapperComponent,
     EpisodeCardComponent,
+    EntityFavouriteToggleComponent,
   ],
   providers: [CharacterDetailsStore],
   templateUrl: "./character-details.page.component.html",
@@ -39,6 +45,7 @@ export class CharacterDetailsPageComponent implements OnInit {
   private readonly title = inject(Title);
 
   public APP_ROUTES = APP_ROUTES;
+  public EntityType = EntityType;
 
   public characterId = input.required<number, string | number>({
     transform: (value: string | number) => +value,
