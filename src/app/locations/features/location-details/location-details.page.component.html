@@ -8,8 +8,13 @@
 
         @if (location(); as location) {
           <div
-            class="flex flex-col items-start gap-2 rounded-xl bg-light-blue/10 p-4 font-primary text-primary lg:gap-4 lg:p-6"
+            class="relative flex flex-col items-start gap-2 rounded-xl bg-light-blue/10 p-4 font-primary text-primary lg:gap-4 lg:p-6"
           >
+            <entity-favourite-toggle
+              class="absolute right-4 top-4 lg:right-6 lg:top-6"
+              [entityId]="location.id"
+              [entityType]="EntityType.LOCATION"
+            ></entity-favourite-toggle>
             <div
               class="rounded-lg bg-accent px-2 py-0.5 text-sm capitalize text-dark-blue lg:px-3 lg:text-base"
             >

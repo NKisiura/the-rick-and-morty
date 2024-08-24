@@ -8,15 +8,25 @@ import {
 } from "@angular/core";
 import { LocationDetailsStore } from "@locations/features/location-details/location-details.store";
 import { CharacterCardComponent } from "@characters/ui";
-import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import {
+  EntityFavouriteToggleComponent,
+  ErrorMessageComponent,
+  LoaderComponent,
+} from "@shared/components";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
+import { EntityType } from "@shared/types/entity";
 
 @Component({
   selector: "app-location-details",
   standalone: true,
-  imports: [CharacterCardComponent, ErrorMessageComponent, LoaderComponent],
+  imports: [
+    CharacterCardComponent,
+    ErrorMessageComponent,
+    LoaderComponent,
+    EntityFavouriteToggleComponent,
+  ],
   providers: [LocationDetailsStore],
   templateUrl: "./location-details.page.component.html",
   styleUrl: "./location-details.page.component.scss",
@@ -26,6 +36,8 @@ export class LocationDetailsPageComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly locationDetailsStore = inject(LocationDetailsStore);
   private readonly title = inject(Title);
+
+  public EntityType = EntityType;
 
   public locationId = input.required<number, string | number>({
     transform: (value: string | number) => +value,

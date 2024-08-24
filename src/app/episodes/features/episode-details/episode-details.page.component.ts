@@ -8,11 +8,16 @@ import {
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { EpisodeDetailsStore } from "@episodes/features/episode-details/episode-details.store";
-import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import {
+  EntityFavouriteToggleComponent,
+  ErrorMessageComponent,
+  LoaderComponent,
+} from "@shared/components";
 import { CharacterCardComponent } from "@characters/ui";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
+import { EntityType } from "@shared/types/entity";
 
 @Component({
   selector: "app-episode-details",
@@ -22,6 +27,7 @@ import { filter } from "rxjs";
     LoaderComponent,
     ErrorMessageComponent,
     CharacterCardComponent,
+    EntityFavouriteToggleComponent,
   ],
   providers: [EpisodeDetailsStore],
   templateUrl: "./episode-details.page.component.html",
@@ -33,6 +39,7 @@ export class EpisodeDetailsPageComponent implements OnInit {
   private readonly episodeDetailsStore = inject(EpisodeDetailsStore);
   private readonly title = inject(Title);
 
+  public EntityType = EntityType;
   public dateFormat = "MMMM d, y";
 
   public episodeId = input.required<number, string | number>({

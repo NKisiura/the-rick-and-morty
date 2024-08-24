@@ -1,6 +1,13 @@
 <div
-  class="flex h-full flex-col items-center overflow-hidden rounded-xl bg-blue/10 font-primary text-primary"
+  class="group relative flex h-full flex-col items-center overflow-hidden rounded-xl bg-blue/10 font-primary text-primary"
 >
+  <entity-favourite-toggle
+    #entityFavouriteToggle
+    class="absolute left-1 top-1 block group-hover:block lg:hidden"
+    [ngClass]="{ '!block': entityFavouriteToggle.isFavourite() }"
+    [entityId]="location().id"
+    [entityType]="EntityType.LOCATION"
+  ></entity-favourite-toggle>
   <div class="w-full bg-blue/65 px-4 py-3 text-center capitalize">
     {{ location().type || "unknown" }}
   </div>
