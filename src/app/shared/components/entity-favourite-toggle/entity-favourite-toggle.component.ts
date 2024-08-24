@@ -8,7 +8,6 @@ import {
 import { NgClass } from "@angular/common";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { EntityType } from "@shared/types/entity";
 import { EntityFavouriteToggleStore } from "./entity-favourite-toggle.store";
 
@@ -30,7 +29,6 @@ export class EntityFavouriteToggleComponent implements OnInit {
 
   public entityId = input.required<number>();
   public entityType = input.required<EntityType>();
-  public iconSize = input<SizeProp>("lg");
 
   public isFavourite = this.entityFavouriteToggleStore.isFavourite;
   public isSaving = this.entityFavouriteToggleStore.isSaving;
