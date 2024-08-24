@@ -4,7 +4,7 @@
   >
     <entity-favourite-toggle
       #entityFavouriteToggle
-      class="absolute left-1 top-1 hidden group-hover:block"
+      class="absolute left-1 top-1 block group-hover:block lg:hidden"
       [ngClass]="{ '!block': entityFavouriteToggle.isFavourite() }"
       [entityId]="character.id"
       [entityType]="EntityType.CHARACTER"
