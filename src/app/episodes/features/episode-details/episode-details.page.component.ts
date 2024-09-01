@@ -8,12 +8,9 @@ import {
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { EpisodeDetailsStore } from "@episodes/features/episode-details/episode-details.store";
-import {
-  EntityFavouriteToggleComponent,
-  ErrorMessageComponent,
-  LoaderComponent,
-} from "@shared/components";
+import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
 import { CharacterCardComponent } from "@characters/ui";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";

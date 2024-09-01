@@ -4,12 +4,12 @@ import { NgClass } from "@angular/common";
 import { APP_ROUTES } from "@shared/constants";
 import { Episode } from "@episodes/types";
 import { EntityType } from "@shared/types/entity";
-import { EntityFavouriteToggleComponent } from "@shared/components";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 
 @Component({
   selector: "episode-card",
   standalone: true,
-  imports: [RouterLink, EntityFavouriteToggleComponent, NgClass],
+  imports: [RouterLink, NgClass, EntityFavouriteToggleComponent],
   templateUrl: "./episode-card.component.html",
   styleUrl: "./episode-card.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

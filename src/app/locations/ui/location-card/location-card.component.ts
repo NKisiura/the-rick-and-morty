@@ -4,12 +4,12 @@ import { NgClass } from "@angular/common";
 import { APP_ROUTES } from "@shared/constants";
 import { Location } from "@locations/types";
 import { EntityType } from "@shared/types/entity";
-import { EntityFavouriteToggleComponent } from "@shared/components";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 
 @Component({
   selector: "location-card",
   standalone: true,
-  imports: [RouterLink, EntityFavouriteToggleComponent, NgClass],
+  imports: [RouterLink, NgClass, EntityFavouriteToggleComponent],
   templateUrl: "./location-card.component.html",
   styleUrl: "./location-card.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

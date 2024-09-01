@@ -1,14 +1,9 @@
 import { inject, Injectable } from "@angular/core";
+import { catchError, EMPTY, finalize, of, switchMap, tap } from "rxjs";
 import { ComponentStore } from "@ngrx/component-store";
 import { LocalStorageService } from "@shared/services";
 import { EntityType } from "@shared/types/entity";
-import { catchError, EMPTY, finalize, of, switchMap, tap } from "rxjs";
-
-const LS_KEY_MAP: Record<EntityType, string> = {
-  [EntityType.CHARACTER]: "FAVOURITE_CHARACTERS",
-  [EntityType.EPISODE]: "FAVOURITE_EPISODES",
-  [EntityType.LOCATION]: "FAVOURITE_LOCATIONS",
-};
+import { FAVOURITE_ENTITY_LS_KEY_MAP } from "@favourites/constants";
 
 interface EntityFavouriteToggleState {
   readonly entityId: number | null;
@@ -47,7 +42,7 @@ export class EntityFavouriteToggleStore extends ComponentStore<EntityFavouriteTo
   }>((entityData$) => {
     return entityData$.pipe(
       tap(({ entityId, entityType }) => {
-        const localStorageKey = LS_KEY_MAP[entityType];
+        const localStorageKey = FAVOURITE_ENTITY_LS_KEY_MAP[entityType];
         const entityFavouriteIdList =
           this.localStorageService.getItem<number[]>(localStorageKey) || [];
 

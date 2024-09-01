@@ -3,7 +3,7 @@ import { Character, CharacterStatus } from "@characters/types";
 import { RouterLink } from "@angular/router";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { APP_ROUTES } from "@shared/constants";
-import { EntityFavouriteToggleComponent } from "@shared/components";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { EntityType } from "@shared/types/entity";
 
 @Component({

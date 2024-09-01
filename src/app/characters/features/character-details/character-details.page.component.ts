@@ -10,13 +10,10 @@ import { NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { APP_ROUTES } from "@shared/constants";
 import { CharacterDetailsStore } from "./character-details.store";
-import {
-  EntityFavouriteToggleComponent,
-  ErrorMessageComponent,
-  LoaderComponent,
-} from "@shared/components";
+import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
 import { CharacterPropertyWrapperComponent } from "@characters/ui";
 import { EpisodeCardComponent } from "@episodes/ui";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";

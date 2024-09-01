@@ -1,0 +1,11 @@
+import { EntityType } from "@shared/types/entity";
+
+export const FAVOURITE_CHARACTERS_LS_KEY = "FAVOURITE_CHARACTERS";
+export const FAVOURITE_EPISODES_LS_KEY = "FAVOURITE_EPISODES";
+export const FAVOURITE_LOCATION_LS_KEY = "FAVOURITE_LOCATION";
+
+export const FAVOURITE_ENTITY_LS_KEY_MAP: Record<EntityType, string> = {
+  [EntityType.CHARACTER]: FAVOURITE_CHARACTERS_LS_KEY,
+  [EntityType.EPISODE]: FAVOURITE_EPISODES_LS_KEY,
+  [EntityType.LOCATION]: FAVOURITE_LOCATION_LS_KEY,
+};

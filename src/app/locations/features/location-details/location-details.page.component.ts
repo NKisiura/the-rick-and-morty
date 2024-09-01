@@ -8,11 +8,8 @@ import {
 } from "@angular/core";
 import { LocationDetailsStore } from "@locations/features/location-details/location-details.store";
 import { CharacterCardComponent } from "@characters/ui";
-import {
-  EntityFavouriteToggleComponent,
-  ErrorMessageComponent,
-  LoaderComponent,
-} from "@shared/components";
+import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
+import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs";
