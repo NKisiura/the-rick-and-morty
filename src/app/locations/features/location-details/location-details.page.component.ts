@@ -16,7 +16,6 @@ import { filter } from "rxjs";
 import { EntityType } from "@shared/types/entity";
 
 @Component({
-  selector: "app-location-details",
   standalone: true,
   imports: [
     CharacterCardComponent,

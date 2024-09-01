@@ -18,7 +18,6 @@ import {
 } from "@shared/components";
 
 @Component({
-  selector: "app-character-list",
   standalone: true,
   imports: [
     CharacterCardComponent,

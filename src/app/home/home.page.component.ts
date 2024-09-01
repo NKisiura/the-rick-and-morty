@@ -4,7 +4,6 @@ import { PageLinkCard } from "@home/types";
 import { APP_ROUTES } from "@shared/constants";
 
 @Component({
-  selector: "app-home",
   standalone: true,
   imports: [GreetingSectionComponent, PageLinkCardComponent],
   templateUrl: "./home.page.component.html",

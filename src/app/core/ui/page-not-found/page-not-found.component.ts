@@ -4,7 +4,6 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: "app-page-not-found",
   standalone: true,
   imports: [NgOptimizedImage, FaIconComponent],
   templateUrl: "./page-not-found.component.html",

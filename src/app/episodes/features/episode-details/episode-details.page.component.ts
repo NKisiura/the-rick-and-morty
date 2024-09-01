@@ -17,7 +17,6 @@ import { filter } from "rxjs";
 import { EntityType } from "@shared/types/entity";
 
 @Component({
-  selector: "app-episode-details",
   standalone: true,
   imports: [
     DatePipe,

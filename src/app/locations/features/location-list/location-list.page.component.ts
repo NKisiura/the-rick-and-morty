@@ -15,7 +15,6 @@ import {
 } from "@shared/components";
 
 @Component({
-  selector: "app-location-list",
   standalone: true,
   imports: [
     LocationCardComponent,

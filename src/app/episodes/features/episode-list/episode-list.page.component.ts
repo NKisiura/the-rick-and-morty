@@ -15,7 +15,6 @@ import { EpisodesFilter } from "@episodes/types";
 import { EpisodeCardComponent, EpisodesFilterComponent } from "@episodes/ui";
 
 @Component({
-  selector: "app-episode-list",
   standalone: true,
   imports: [
     EpisodeCardComponent,

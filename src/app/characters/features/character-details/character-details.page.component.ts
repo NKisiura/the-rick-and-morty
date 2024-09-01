@@ -20,7 +20,6 @@ import { filter } from "rxjs";
 import { EntityType } from "@shared/types/entity";
 
 @Component({
-  selector: "app-character-details",
   standalone: true,
   imports: [
     NgOptimizedImage,
