@@ -169,11 +169,10 @@ export class LocationListStore extends ComponentStore<LocationListState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly locationByFilterSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Location>,
-    ): LocationListState => ({
+  private readonly locationByFilterSucceeded = this.updater<
+    PaginatedResponseDTO<Location>
+  >(
+    (state, { info, results }): LocationListState => ({
       ...state,
       isLoading: false,
       locations: results,
@@ -182,8 +181,8 @@ export class LocationListStore extends ComponentStore<LocationListState> {
     }),
   );
 
-  private readonly locationByFilterFailed = this.updater(
-    (state, error: BackendErrorResponse): LocationListState => ({
+  private readonly locationByFilterFailed = this.updater<BackendErrorResponse>(
+    (state, error): LocationListState => ({
       ...state,
       isLoading: false,
       locations: null,
@@ -192,11 +191,10 @@ export class LocationListStore extends ComponentStore<LocationListState> {
     }),
   );
 
-  private readonly nextPageSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Location>,
-    ): LocationListState => ({
+  private readonly nextPageSucceeded = this.updater<
+    PaginatedResponseDTO<Location>
+  >(
+    (state, { info, results }): LocationListState => ({
       ...state,
       isLoading: false,
       locations: [...(state.locations || []), ...results],
@@ -205,8 +203,8 @@ export class LocationListStore extends ComponentStore<LocationListState> {
     }),
   );
 
-  private readonly nextPageFailed = this.updater(
-    (state, error: BackendErrorResponse): LocationListState => ({
+  private readonly nextPageFailed = this.updater<BackendErrorResponse>(
+    (state, error): LocationListState => ({
       ...state,
       isLoading: false,
       error,

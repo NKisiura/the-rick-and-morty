@@ -105,8 +105,8 @@ export class LocationDetailsStore extends ComponentStore<LocationDetailsState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly locationByIdSucceeded = this.updater(
-    (state, location: Location): LocationDetailsState => ({
+  private readonly locationByIdSucceeded = this.updater<Location>(
+    (state, location): LocationDetailsState => ({
       ...state,
       locationLoading: false,
       location: location,
@@ -114,8 +114,8 @@ export class LocationDetailsStore extends ComponentStore<LocationDetailsState> {
     }),
   );
 
-  private readonly locationByIdFailed = this.updater(
-    (state, error: BackendErrorResponse): LocationDetailsState => ({
+  private readonly locationByIdFailed = this.updater<BackendErrorResponse>(
+    (state, error): LocationDetailsState => ({
       ...state,
       locationLoading: false,
       location: null,
@@ -123,8 +123,8 @@ export class LocationDetailsStore extends ComponentStore<LocationDetailsState> {
     }),
   );
 
-  private readonly locationCharactersSucceeded = this.updater(
-    (state, characters: Character[]): LocationDetailsState => ({
+  private readonly locationCharactersSucceeded = this.updater<Character[]>(
+    (state, characters): LocationDetailsState => ({
       ...state,
       charactersLoading: false,
       characters: characters,
@@ -132,12 +132,13 @@ export class LocationDetailsStore extends ComponentStore<LocationDetailsState> {
     }),
   );
 
-  private readonly locationCharactersFailed = this.updater(
-    (state, error: BackendErrorResponse): LocationDetailsState => ({
-      ...state,
-      charactersLoading: false,
-      characters: null,
-      charactersError: error,
-    }),
-  );
+  private readonly locationCharactersFailed =
+    this.updater<BackendErrorResponse>(
+      (state, error): LocationDetailsState => ({
+        ...state,
+        charactersLoading: false,
+        characters: null,
+        charactersError: error,
+      }),
+    );
 }

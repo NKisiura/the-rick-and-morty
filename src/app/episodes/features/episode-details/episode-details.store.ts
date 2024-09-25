@@ -103,8 +103,8 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly episodeByIdSucceeded = this.updater(
-    (state, episode: Episode): EpisodeDetailsState => ({
+  private readonly episodeByIdSucceeded = this.updater<Episode>(
+    (state, episode): EpisodeDetailsState => ({
       ...state,
       episodeLoading: false,
       episode: episode,
@@ -112,8 +112,8 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly episodeByIdFailed = this.updater(
-    (state, error: BackendErrorResponse): EpisodeDetailsState => ({
+  private readonly episodeByIdFailed = this.updater<BackendErrorResponse>(
+    (state, error): EpisodeDetailsState => ({
       ...state,
       episodeLoading: false,
       episode: null,
@@ -121,8 +121,8 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly episodeCharactersSucceeded = this.updater(
-    (state, characters: Character[]): EpisodeDetailsState => ({
+  private readonly episodeCharactersSucceeded = this.updater<Character[]>(
+    (state, characters): EpisodeDetailsState => ({
       ...state,
       charactersLoading: false,
       characters: characters,
@@ -130,8 +130,8 @@ export class EpisodeDetailsStore extends ComponentStore<EpisodeDetailsState> {
     }),
   );
 
-  private readonly episodeCharactersFailed = this.updater(
-    (state, error: BackendErrorResponse): EpisodeDetailsState => ({
+  private readonly episodeCharactersFailed = this.updater<BackendErrorResponse>(
+    (state, error): EpisodeDetailsState => ({
       ...state,
       charactersLoading: false,
       characters: null,

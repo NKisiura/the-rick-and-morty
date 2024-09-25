@@ -173,11 +173,10 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly charactersByFilterSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Character>,
-    ): CharacterListState => ({
+  private readonly charactersByFilterSucceeded = this.updater<
+    PaginatedResponseDTO<Character>
+  >(
+    (state, { info, results }): CharacterListState => ({
       ...state,
       isLoading: false,
       characters: results,
@@ -186,21 +185,21 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     }),
   );
 
-  private readonly charactersByFilterFailed = this.updater(
-    (state, error: BackendErrorResponse): CharacterListState => ({
-      ...state,
-      isLoading: false,
-      characters: null,
-      paginationInfo: null,
-      error,
-    }),
-  );
+  private readonly charactersByFilterFailed =
+    this.updater<BackendErrorResponse>(
+      (state, error): CharacterListState => ({
+        ...state,
+        isLoading: false,
+        characters: null,
+        paginationInfo: null,
+        error,
+      }),
+    );
 
-  private readonly nextPageSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Character>,
-    ): CharacterListState => ({
+  private readonly nextPageSucceeded = this.updater<
+    PaginatedResponseDTO<Character>
+  >(
+    (state, { info, results }): CharacterListState => ({
       ...state,
       isLoading: false,
       characters: [...(state.characters || []), ...results],
@@ -209,8 +208,8 @@ export class CharacterListStore extends ComponentStore<CharacterListState> {
     }),
   );
 
-  private readonly nextPageFailed = this.updater(
-    (state, error: BackendErrorResponse): CharacterListState => ({
+  private readonly nextPageFailed = this.updater<BackendErrorResponse>(
+    (state, error): CharacterListState => ({
       ...state,
       isLoading: false,
       error,

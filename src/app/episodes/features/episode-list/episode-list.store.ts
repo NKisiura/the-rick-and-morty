@@ -171,11 +171,10 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly episodesByFilterSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Episode>,
-    ): EpisodeListState => ({
+  private readonly episodesByFilterSucceeded = this.updater<
+    PaginatedResponseDTO<Episode>
+  >(
+    (state, { info, results }): EpisodeListState => ({
       ...state,
       isLoading: false,
       episodes: results,
@@ -184,8 +183,8 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
     }),
   );
 
-  private readonly episodesByFilterFailed = this.updater(
-    (state, error: BackendErrorResponse): EpisodeListState => ({
+  private readonly episodesByFilterFailed = this.updater<BackendErrorResponse>(
+    (state, error): EpisodeListState => ({
       ...state,
       isLoading: false,
       episodes: null,
@@ -194,11 +193,10 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
     }),
   );
 
-  private readonly nextPageSucceeded = this.updater(
-    (
-      state,
-      { info, results }: PaginatedResponseDTO<Episode>,
-    ): EpisodeListState => ({
+  private readonly nextPageSucceeded = this.updater<
+    PaginatedResponseDTO<Episode>
+  >(
+    (state, { info, results }): EpisodeListState => ({
       ...state,
       isLoading: false,
       episodes: [...(state.episodes || []), ...results],
@@ -207,8 +205,8 @@ export class EpisodeListStore extends ComponentStore<EpisodeListState> {
     }),
   );
 
-  private readonly nextPageFailed = this.updater(
-    (state, error: BackendErrorResponse): EpisodeListState => ({
+  private readonly nextPageFailed = this.updater<BackendErrorResponse>(
+    (state, error): EpisodeListState => ({
       ...state,
       isLoading: false,
       error,

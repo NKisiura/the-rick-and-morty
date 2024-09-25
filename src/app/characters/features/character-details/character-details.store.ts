@@ -101,8 +101,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
 
   // ------------------------- UPDATERS -------------------------
 
-  private readonly characterByIdSucceeded = this.updater(
-    (state, character: Character): CharacterDetailsState => ({
+  private readonly characterByIdSucceeded = this.updater<Character>(
+    (state, character): CharacterDetailsState => ({
       ...state,
       characterLoading: false,
       character: character,
@@ -110,8 +110,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly characterByIdFailed = this.updater(
-    (state, error: BackendErrorResponse): CharacterDetailsState => ({
+  private readonly characterByIdFailed = this.updater<BackendErrorResponse>(
+    (state, error): CharacterDetailsState => ({
       ...state,
       characterLoading: false,
       character: null,
@@ -119,8 +119,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly characterEpisodesSucceeded = this.updater(
-    (state, episodes: Episode[]): CharacterDetailsState => ({
+  private readonly characterEpisodesSucceeded = this.updater<Episode[]>(
+    (state, episodes): CharacterDetailsState => ({
       ...state,
       episodesLoading: false,
       episodes: episodes,
@@ -128,8 +128,8 @@ export class CharacterDetailsStore extends ComponentStore<CharacterDetailsState>
     }),
   );
 
-  private readonly characterEpisodesFailed = this.updater(
-    (state, error: BackendErrorResponse): CharacterDetailsState => ({
+  private readonly characterEpisodesFailed = this.updater<BackendErrorResponse>(
+    (state, error): CharacterDetailsState => ({
       ...state,
       episodesLoading: false,
       episodes: null,
