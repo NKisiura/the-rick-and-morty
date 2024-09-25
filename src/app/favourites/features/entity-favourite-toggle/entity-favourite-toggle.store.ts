@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { catchError, EMPTY, finalize, of, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, finalize, map, of, switchMap, tap } from "rxjs";
 import { ComponentStore } from "@ngrx/component-store";
 import { LocalStorageService } from "@shared/services";
 import { EntityType } from "@shared/types/entity";
@@ -41,16 +41,26 @@ export class EntityFavouriteToggleStore extends ComponentStore<EntityFavouriteTo
     entityType: EntityType;
   }>((entityData$) => {
     return entityData$.pipe(
-      tap(({ entityId, entityType }) => {
-        const localStorageKey = FAVOURITE_ENTITY_LS_KEY_MAP[entityType];
-        const entityFavouriteIdList =
-          this.localStorageService.getItem<number[]>(localStorageKey) || [];
-
+      map(({ entityId, entityType }) => ({
+        entityId,
+        localStorageKey: FAVOURITE_ENTITY_LS_KEY_MAP[entityType],
+      })),
+      tap(({ entityId, localStorageKey }) => {
         this.patchState({
           entityId,
           localStorageKey,
-          isFavourite: entityFavouriteIdList.includes(entityId),
         });
+      }),
+      switchMap(({ entityId, localStorageKey }) => {
+        return of(
+          this.localStorageService.getItem<number[]>(localStorageKey!) || [],
+        ).pipe(
+          tap((entityFavouriteIdList) => {
+            this.patchState({
+              isFavourite: entityFavouriteIdList.includes(entityId!),
+            });
+          }),
+        );
       }),
     );
   });
@@ -61,13 +71,12 @@ export class EntityFavouriteToggleStore extends ComponentStore<EntityFavouriteTo
         tap(() => {
           this.patchState({ isSaving: true });
         }),
-        switchMap(() => {
-          return of(this.state()).pipe(
-            tap(({ entityId, isFavourite, localStorageKey }) => {
-              const entityFavouriteIdList =
-                this.localStorageService.getItem<number[]>(localStorageKey!) ||
-                [];
-
+        map(() => this.state()),
+        switchMap(({ entityId, isFavourite, localStorageKey }) => {
+          return of(
+            this.localStorageService.getItem<number[]>(localStorageKey!) || [],
+          ).pipe(
+            tap((entityFavouriteIdList) => {
               const updatedEntityFavouriteIdList = isFavourite
                 ? entityFavouriteIdList.filter((id) => id !== entityId)
                 : [...entityFavouriteIdList, entityId];
@@ -76,6 +85,7 @@ export class EntityFavouriteToggleStore extends ComponentStore<EntityFavouriteTo
                 localStorageKey!,
                 updatedEntityFavouriteIdList,
               );
+
               this.patchState({ isFavourite: !isFavourite });
             }),
             catchError((error) => {
