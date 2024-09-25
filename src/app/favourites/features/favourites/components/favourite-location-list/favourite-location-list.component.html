@@ -1,1 +1,21 @@
-<p>favourite-location-list works!</p>
+@if (isLoading()) {
+  <loader></loader>
+}
+
+@if (!hasFavouriteLocations() && !isLoading() && !error()) {
+  <div class="text-center font-primary text-lg text-primary">
+    There is no favourite locations yet
+  </div>
+}
+
+<div
+  class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 2xl:grid-cols-4"
+>
+  @for (location of favouriteLocations(); track location.id) {
+    <location-card [location]="location"></location-card>
+  }
+</div>
+
+@if (error() && !isLoading()) {
+  <error-message [errorMessage]="error()!.error"></error-message>
+}

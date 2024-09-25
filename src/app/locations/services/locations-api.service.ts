@@ -18,6 +18,20 @@ export class LocationsApiService {
       .pipe(map(LocationAdapter.fromDTO));
   }
 
+  public getLocationsByIdList(locationIdList: number[]) {
+    return this.httpClient
+      .get<
+        LocationDTO | LocationDTO[]
+      >(`${this.URL}/${locationIdList.join(",")}`)
+      .pipe(
+        map((response) => {
+          return Array.isArray(response)
+            ? LocationAdapter.fromDTOList(response)
+            : [LocationAdapter.fromDTO(response)];
+        }),
+      );
+  }
+
   public getLocationsByFilter(locationsFilter: LocationsFilter) {
     return this.httpClient
       .get<PaginatedResponseDTO<LocationDTO>>(this.URL, {
