@@ -1,0 +1,27 @@
+<div class="py-4 lg:py-6">
+  <div class="container">
+    <div class="flex flex-col gap-4 lg:gap-6">
+      <div class="flex flex-col items-center gap-4 lg:gap-6">
+        <h2 class="font-decorative text-5xl text-primary sm:text-6xl">
+          Favourite
+        </h2>
+        <div
+          class="flex gap-2 rounded-lg border border-light-blue bg-light-blue/10 p-2 sm:gap-4 lg:gap-6"
+        >
+          @for (tab of tabs; track tab.route) {
+            <a
+              [routerLink]="tab.route"
+              [routerLinkActive]="'font-bold bg-accent !text-dark-blue'"
+              class="rounded-md border border-transparent px-2 py-1 font-primary text-sm capitalize text-primary transition-colors hover:border-accent sm:px-4 sm:text-base lg:px-6"
+            >
+              {{ tab.label }}
+            </a>
+          }
+        </div>
+      </div>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@if (isLoading()) {
+  <loader></loader>
+}
+
+@if (!hasFavouriteCharacters() && !isLoading() && !error()) {
+  <div class="text-center font-primary text-lg text-primary">
+    There is no favourite characters yet
+  </div>
+}
+
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+  @for (character of favouriteCharacters(); track character.id) {
+    <character-card [character]="character"></character-card>
+  }
+</div>
+
+@if (error() && !isLoading()) {
+  <error-message [errorMessage]="error()!.error"></error-message>
+}
