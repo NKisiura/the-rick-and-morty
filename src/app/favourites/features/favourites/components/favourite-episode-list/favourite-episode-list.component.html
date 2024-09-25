@@ -1,1 +1,21 @@
-<p>favourite-episode-list works!</p>
+@if (isLoading()) {
+  <loader></loader>
+}
+
+@if (!hasFavouriteEpisodes() && !isLoading() && !error()) {
+  <div class="text-center font-primary text-lg text-primary">
+    There is no favourite episodes yet
+  </div>
+}
+
+<div
+  class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 2xl:grid-cols-4"
+>
+  @for (episode of favouriteEpisodes(); track episode.id) {
+    <episode-card [episode]="episode"></episode-card>
+  }
+</div>
+
+@if (error() && !isLoading()) {
+  <error-message [errorMessage]="error()!.error"></error-message>
+}

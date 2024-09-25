@@ -21,12 +21,12 @@ export class FavouriteCharacterListComponent implements OnInit {
     FavouriteCharacterListStore,
   );
 
-  public favouriteCharacters =
+  public readonly favouriteCharacters =
     this.favouriteCharacterListStore.favouriteCharacters;
-  public hasFavouriteCharacters =
+  public readonly hasFavouriteCharacters =
     this.favouriteCharacterListStore.hasFavouriteCharacters;
-  public isLoading = this.favouriteCharacterListStore.isLoading;
-  public error = this.favouriteCharacterListStore.error;
+  public readonly isLoading = this.favouriteCharacterListStore.isLoading;
+  public readonly error = this.favouriteCharacterListStore.error;
 
   ngOnInit(): void {
     this.favouriteCharacterListStore.favouriteCharactersRequested();

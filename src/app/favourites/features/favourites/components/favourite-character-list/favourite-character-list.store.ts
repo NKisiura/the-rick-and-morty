@@ -84,7 +84,7 @@ export class FavouriteCharacterListStore extends ComponentStore<FavouriteCharact
 
   // ------------------------- UPDATERS -------------------------
 
-  public readonly favouriteCharactersSucceeded = this.updater<Character[]>(
+  private readonly favouriteCharactersSucceeded = this.updater<Character[]>(
     (state, characters): FavouriteCharacterListState => ({
       ...state,
       favouriteCharacters: [...characters],
@@ -92,7 +92,7 @@ export class FavouriteCharacterListStore extends ComponentStore<FavouriteCharact
     }),
   );
 
-  public readonly favouriteCharactersFailed =
+  private readonly favouriteCharactersFailed =
     this.updater<BackendErrorResponse>(
       (state, error): FavouriteCharacterListState => ({
         ...state,
