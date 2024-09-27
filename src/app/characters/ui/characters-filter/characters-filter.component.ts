@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { values } from "lodash";
+import { values } from "lodash-es";
 import {
   CharactersFilter,
   CharacterStatus,
