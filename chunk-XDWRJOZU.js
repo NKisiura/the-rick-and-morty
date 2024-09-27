@@ -1,1 +1,0 @@
-import{d as e}from"./chunk-XOLOHFGZ.js";var t=class m{static fromDTO(r){return{id:r.id,name:r.name,type:r.type,dimension:r.dimension,residentIds:r.residents.map(e),url:r.url,created:new Date(r.created)}}static fromDTOList(r){return r.map(m.fromDTO)}};var n=class{static fromDTO(r){return{id:r.url?e(r.url):null,name:r.name}}};export{t as a,n as b};
