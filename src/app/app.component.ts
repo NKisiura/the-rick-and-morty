@@ -5,7 +5,6 @@ import {
   viewChild,
   AfterViewInit,
   DestroyRef,
-  isDevMode,
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "@core/ui";
@@ -41,7 +40,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(isDevMode(), "is dev mode");
     this.initProgressbar();
   }
 
