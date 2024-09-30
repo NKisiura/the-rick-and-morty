@@ -13,8 +13,8 @@ import {
   retryInterceptor,
 } from "@core/interceptors";
 import { provideState, provideStore } from "@ngrx/store";
-import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { appStateFeature } from "./app.state";
+import { environment } from "@environments/environment";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       ]),
     ),
     provideStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: true }),
     provideState(appStateFeature),
+    environment.providers,
   ],
 };

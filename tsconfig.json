@@ -23,6 +23,7 @@
       "dom"
     ],
     "paths": {
+      "@environments/*": ["./src/environments/*"],
       "@app/*": ["./src/app/*"],
       "@home/*": ["./src/app/home/*"],
       "@characters/*": ["./src/app/characters/*"],
