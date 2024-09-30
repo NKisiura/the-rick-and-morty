@@ -1,1 +1,0 @@
-import"./chunk-35PI25VP.js";var e=[{path:"",loadComponent:()=>import("./chunk-YTJJFPJ3.js").then(o=>o.EpisodeListPageComponent)},{path:":episodeId",loadComponent:()=>import("./chunk-L6LGANSD.js").then(o=>o.EpisodeDetailsPageComponent)}];export{e as episodesRoutes};
