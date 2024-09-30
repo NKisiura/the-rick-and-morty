@@ -4,6 +4,7 @@ import {
   inject,
   viewChild,
   AfterViewInit,
+  DestroyRef,
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "@core/ui";
@@ -23,6 +24,7 @@ import { LazyNavigationLoadingTrackerService } from "@core/services";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(Store);
   private readonly lazyNavigationTracker = inject(
     LazyNavigationLoadingTrackerService,
@@ -51,7 +53,7 @@ export class AppComponent implements AfterViewInit {
 
           isLoading ? progressbar.start() : progressbar.complete();
         }),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
