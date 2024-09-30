@@ -1,4 +1,4 @@
-import { ApplicationConfig, isDevMode } from "@angular/core";
+import { ApplicationConfig } from "@angular/core";
 import {
   provideRouter,
   withComponentInputBinding,
@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       ]),
     ),
     provideStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideStoreDevtools({ maxAge: 25, logOnly: true }),
     provideState(appStateFeature),
   ],
 };
