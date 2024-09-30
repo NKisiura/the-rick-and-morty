@@ -1,4 +1,4 @@
-import { DestroyRef, inject, Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Event, EventType, Router } from "@angular/router";
 import { filter, map, tap } from "rxjs";
@@ -7,7 +7,6 @@ import { LazyNavigationActions } from "@app/app.state";
 
 @Injectable({ providedIn: "root" })
 export class LazyNavigationLoadingTrackerService {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(Store);
   private readonly router = inject(Router);
 
@@ -22,7 +21,7 @@ export class LazyNavigationLoadingTrackerService {
         filter((event) => this.isRouteConfigLoadEvent(event)),
         map((event) => this.defineActionToDispatch(event)),
         tap((action) => this.store.dispatch(action())),
-        takeUntilDestroyed(this.destroyRef),
+        takeUntilDestroyed(),
       )
       .subscribe();
   }

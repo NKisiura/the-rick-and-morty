@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
   input,
   OnInit,
@@ -16,7 +15,7 @@ import { EpisodeCardComponent } from "@episodes/ui";
 import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { filter } from "rxjs";
+import { filter, tap } from "rxjs";
 import { EntityType } from "@shared/types/entity";
 
 @Component({
@@ -36,7 +35,6 @@ import { EntityType } from "@shared/types/entity";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterDetailsPageComponent implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly characterDetailsStore = inject(CharacterDetailsStore);
   private readonly title = inject(Title);
 
@@ -57,10 +55,14 @@ export class CharacterDetailsPageComponent implements OnInit {
 
   constructor() {
     toObservable(this.character)
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ name }) => {
-        this.title.setTitle(`${name} - Character`);
-      });
+      .pipe(
+        filter(Boolean),
+        tap(({ name }) => {
+          this.title.setTitle(`${name} - Character`);
+        }),
+        takeUntilDestroyed(),
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {

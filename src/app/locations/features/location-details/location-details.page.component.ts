@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
   input,
   OnInit,
@@ -12,7 +11,7 @@ import { ErrorMessageComponent, LoaderComponent } from "@shared/components";
 import { EntityFavouriteToggleComponent } from "@favourites/features";
 import { Title } from "@angular/platform-browser";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { filter } from "rxjs";
+import { filter, tap } from "rxjs";
 import { EntityType } from "@shared/types/entity";
 
 @Component({
@@ -29,7 +28,6 @@ import { EntityType } from "@shared/types/entity";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationDetailsPageComponent implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly locationDetailsStore = inject(LocationDetailsStore);
   private readonly title = inject(Title);
 
@@ -50,10 +48,14 @@ export class LocationDetailsPageComponent implements OnInit {
 
   constructor() {
     toObservable(this.location)
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ name }) => {
-        this.title.setTitle(`${name} - Location`);
-      });
+      .pipe(
+        filter(Boolean),
+        tap(({ name }) => {
+          this.title.setTitle(`${name} - Location`);
+        }),
+        takeUntilDestroyed(),
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {
